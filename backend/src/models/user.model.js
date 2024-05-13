@@ -35,6 +35,12 @@ const userSchema=new mongoose.Schema(
             required:true,
             enum: ['M','F','O']
         },
+        phone:{
+            type:String,
+        },
+        address:{
+            type:String,
+        },
         password:{
             type:String,
             required:[true,"Password is required"],

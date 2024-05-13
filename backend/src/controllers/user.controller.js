@@ -21,7 +21,7 @@ const generateAccessAndRefereshTokens = async (userId) => {
 
 const registerUser = asyncHandler(async (req, res) => {
   //get the data from the request body
-  const { username, fullname, email, password,gender,facebook,linkedin,twitter } = req.body;
+  const { username, fullname, email, password,gender,github,linkedin,twitter,address,phone } = req.body;
   //   console.log(username, fullname, email, password);
   //valid username,fullname,email,password!!!!!!!!!!!!!!!!!!
   if (
@@ -63,7 +63,9 @@ const registerUser = asyncHandler(async (req, res) => {
     gender,
     linkedin,
     twitter,
-    facebook,
+    github,
+    phone,
+    address
 
   });
   //send the response
