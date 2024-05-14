@@ -1,10 +1,10 @@
-import './App.css'
+import React from "react"
+import Navbar from "./components/list/left_sidebar/Navbar"
 
 function App() {
-   return (
-    <div className="container">
-      App
-    </div>
+  
+  return (
+    <Navbar />
   )
 }
 
