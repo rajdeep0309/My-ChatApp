@@ -144,7 +144,7 @@ const loginUser = asyncHandler(async (req, res) => {
 });
 const loggedoutUser = asyncHandler(
   async (req, res) => {
-    await User.findByIdAndUpdate(
+    const user=await User.findByIdAndUpdate(
       req.user._id,
       {
         $set: {
@@ -165,16 +165,10 @@ const loggedoutUser = asyncHandler(
       .status(200)
       .clearCookie("accessToken", options)
       .clearCookie("refreshToken", options)
-      .json(new ApiResponse(200, "User logged out successfully", {}));
+      .json(new ApiResponse(200, "User logged out successfully", user));
   }
 
-  //one type to logout the user
-  // {
-  // const user=await User.findById(req.user._id)
-  // user.refreshTokens=[];
-  // await user.save({validateBeforeSave:false});
-  // return res.status(200).json(new ApiResponse(200,"User logged out successfully"));
-  // }
+  
 );
 
 export { registerUser, loginUser, loggedoutUser};
