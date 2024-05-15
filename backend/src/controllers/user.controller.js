@@ -7,14 +7,18 @@ import ApiResponse from "../utils/ApiResponse.js";
 //function of generating the access token and refresh token
 const generateAccessAndRefereshTokens = async (userId) => {
   try {
+    console.log("userId:", userId);
     const existedUser = await User.findById(userId);
-    const accessToken = await existedUser.generateAccessToken();
-    const refreshToken = await existedUser.generateRefreshToken();
-    existed.refreshTokens = refreshToken;
+    const accessToken = existedUser.generateAccessToken();
+    // console.log("existedUser:",existedUser);
+    const refreshToken = existedUser.generateRefreshToken();
+    existedUser.refreshTokens = refreshToken;
+
     await existedUser.save({ validateBeforeSave: false });
 
     return { accessToken, refreshToken };
   } catch (err) {
+    console.log(err);
     throw new ApiError(500, "Failed to generate access and refresh tokens");
   }
 };
@@ -84,12 +88,13 @@ const registerUser = asyncHandler(async (req, res) => {
 
 const loginUser = asyncHandler(async (req, res) => {
   //get the data from the request body
+  // console.log(req);
   const { email, username, password } = req.body;
-  console.log(req.body);
-  console.log(email, username, password);
+  // console.log(req.body);
+  // console.log(email, username, password);
 
   //   valid username,password
-  if (!username || !email) {
+  if (!username && !email) {
     throw new ApiError(400, "Please fill in all fields");
   }
 
@@ -137,5 +142,39 @@ const loginUser = asyncHandler(async (req, res) => {
       })
     );
 });
+const loggedoutUser = asyncHandler(
+  async (req, res) => {
+    await User.findByIdAndUpdate(
+      req.user._id,
+      {
+        $set: {
+          refreshTokens: undefined,
+        },
+      },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+    const options = {
+      httpOnly: true,
+      // secure:process.env.NODE_ENV==="production",
+      secure: true,
+    };
+    return res
+      .status(200)
+      .clearCookie("accessToken", options)
+      .clearCookie("refreshToken", options)
+      .json(new ApiResponse(200, "User logged out successfully", {}));
+  }
 
-export { registerUser, loginUser };
+  //one type to logout the user
+  // {
+  // const user=await User.findById(req.user._id)
+  // user.refreshTokens=[];
+  // await user.save({validateBeforeSave:false});
+  // return res.status(200).json(new ApiResponse(200,"User logged out successfully"));
+  // }
+);
+
+export { registerUser, loginUser, loggedoutUser};
