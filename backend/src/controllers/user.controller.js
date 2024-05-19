@@ -3,6 +3,8 @@ import ApiError from "../utils/ApiError.js";
 import User from "../models/user.model.js";
 import uploadCloudinary from "../utils/cloudinary.js";
 import ApiResponse from "../utils/ApiResponse.js";
+import {options} from "../constants.js";
+import jwt from "jsonwebtoken";
 
 //function of generating the access token and refresh token
 const generateAccessAndRefereshTokens = async (userId) => {
@@ -122,11 +124,7 @@ const loginUser = asyncHandler(async (req, res) => {
     "-password -refreshToken"
   );
   //send the cookies
-  const options = {
-    httpOnly: true,
-    // secure:process.env.NODE_ENV==="production",
-    secure: true,
-  };
+  
 
   //send the response
 
@@ -156,11 +154,7 @@ const loggedoutUser = asyncHandler(
         runValidators: true,
       }
     );
-    const options = {
-      httpOnly: true,
-      // secure:process.env.NODE_ENV==="production",
-      secure: true,
-    };
+   
     return res
       .status(200)
       .clearCookie("accessToken", options)
@@ -171,4 +165,36 @@ const loggedoutUser = asyncHandler(
   
 );
 
-export { registerUser, loginUser, loggedoutUser};
+const refershAccessToken = asyncHandler(async (req, res) => {
+  const { refreshToken } = req.cookies;
+  if (!refreshToken) {
+    throw new ApiError(401, "User not authenticated");
+  }
+  //verify the refresh token
+  const decodedToken = jwt.verify(
+    refreshToken,
+    process.env.REFRESH_TOKEN_SECRET
+  );
+  //check if the user exists
+  const user = await User.findById(decodedToken._id);
+  if (!user) {
+    throw new ApiError(401, "User not authenticated");
+  }
+  //generate the access token and refresh token
+  const { accessToken, refreshToken: newRefreshToken } =
+    await generateAccessAndRefereshTokens(user._id);
+  //send the cookies
+ 
+  //send the response
+  return res
+    .status(200)
+    .cookie("accessToken", accessToken, options)
+    .cookie("refreshToken", newRefreshToken, options)
+    .json(
+      new ApiResponse(200, "Access token refreshed successfully", {
+        accessToken,
+      })
+    );
+});
+
+export { registerUser, loginUser, loggedoutUser, refershAccessToken};
