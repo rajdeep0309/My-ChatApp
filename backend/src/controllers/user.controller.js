@@ -197,4 +197,80 @@ const refershAccessToken = asyncHandler(async (req, res) => {
     );
 });
 
-export { registerUser, loginUser, loggedoutUser, refershAccessToken};
+const changeCurrentPassword = asyncHandler(async (req, res) => {
+  const { oldPassword, newPassword, confirmPassword } = req.body;
+  const user = await User.findById(req.user._id);
+  if (!user) {
+    throw new ApiError(404, "User not found");
+  }
+  const isPasswordValid = await user.isPasswordCorrect(oldPassword);
+  if (!isPasswordValid) {
+    throw new ApiError(400, "Invalid password");
+  }
+  if (newPassword !== confirmPassword) {
+    throw new ApiError(
+      400,
+      "New Password does not match to the confirm password"
+    );
+  }
+  user.password = newPassword;
+  await user.save({ validateBeforeSave: false });
+  return res
+    .status(200)
+    .json(new ApiResponse(200, "Password changed successfully"));
+});
+
+const updateAccountDetails = asyncHandler(async (req, res) => {
+  const { username, fullname, email } = req.body;
+  if (!username || !fullname || !email) {
+    throw new ApiError(400, "Please fill in all fields");
+  }
+  const user = await User.findByIdAndUpdate(
+    req.user?._id,
+    {
+      $set: { username, fullname, email },
+    },
+    {
+      new: true,
+      runValidators: true,
+    }
+  ).select("-password "); 
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, "Account details updated successfully", user));
+});
+
+
+const updateUserAvatar = asyncHandler(async (req, res) => {
+  const avatarLocalPath=req.file?.path;
+  if(!avatarLocalPath){
+    throw new ApiError(400,"Please upload an avatar");
+  }
+  const avatar=await uploadCloudinary(avatarLocalPath);
+  if(!avatar.url){
+    throw new ApiError(500,"Failed to upload avatar");
+  }
+  const user=await User.findOneAndUpdate(
+    req.user._id,
+    {
+      $set:{avatar:avatar.url},
+    },
+    {
+      new:true,
+      runValidators:true,
+      
+    }
+  ).select("-password");
+  return res.status(200).json(new ApiResponse(200,"Avatar updated successfully",user));
+});
+
+export { 
+  registerUser, 
+  loginUser, 
+  loggedoutUser, 
+  refershAccessToken,
+  changeCurrentPassword,
+  updateAccountDetails,
+  updateUserAvatar
+};
