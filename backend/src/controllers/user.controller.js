@@ -265,10 +265,16 @@ const updateUserAvatar = asyncHandler(async (req, res) => {
   return res.status(200).json(new ApiResponse(200,"Avatar updated successfully",user));
 });
 
+const currUser = asyncHandler(async (req, res) => {
+  return res
+    .status(200)
+    .json(new ApiResponse(200, "User found successfully", req.user));
+});
 export { 
   registerUser, 
   loginUser, 
   loggedoutUser, 
+  currUser,
   refershAccessToken,
   changeCurrentPassword,
   updateAccountDetails,
