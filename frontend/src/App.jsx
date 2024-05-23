@@ -1,11 +1,11 @@
-import React from "react"
-import Navbar from "./components/list/left_sidebar/Navbar"
-
+import React from 'react';
+import ChatWindow from './components/ChatWindow';
 function App() {
-  
-  return (
-    <Navbar />
-  )
+	return (
+		<div className='App'>
+			<ChatWindow />
+		</div>
+	);
 }
 
-export default App
+export default App;

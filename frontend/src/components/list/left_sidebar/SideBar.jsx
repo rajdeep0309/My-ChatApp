@@ -11,7 +11,7 @@ function SideBar({closeSidebar}) {
     const contactInfo = JSON.parse(jsonContactInfo);    
     return (
         <>
-        <div className= " fixed top-0 left-0 bg-blue-500 h-full w-1/4 flex flex-col justify-start items-start p-4 rounded-tr-3xl rounded-br-3xl">
+        <div className= " bg-blue-500 h-full w-1/4 flex flex-col justify-start items-start p-4 rounded-tr-3xl rounded-br-3xl">
             <MenuBar closeSidebar={closeSidebar}/>
             <SearchBar />
             <div className="mt-10">
