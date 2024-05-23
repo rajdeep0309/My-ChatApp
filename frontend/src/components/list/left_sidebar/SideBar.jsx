@@ -1,30 +1,55 @@
-import React from "react";
+import React, {useState} from "react";
 import SearchBar from "./SearchBar";
 import Login from "./Login";
 import MenuBar from "./MenuBar";
 import Contact from "./Contact";
+import Profile from "../right_sidebar/Profile"
 
+function SideBar() {
+    const contactInfo = Contact();
+    const [selectedContact, setSelectedContact] = useState(null);
 
-function SideBar({closeSidebar}) {
-    const jsonContactInfo = Contact();
+    const handleContactClick = (contact) => {
+        setSelectedContact(contact);
+    };
 
-    const contactInfo = JSON.parse(jsonContactInfo);    
+    const closeProfile = () => {
+        setSelectedContact(null);
+    };
+
     return (
         <>
-        <div className= " bg-blue-500 h-full w-1/4 flex flex-col justify-start items-start p-4 rounded-tr-3xl rounded-br-3xl">
-            <MenuBar closeSidebar={closeSidebar}/>
-            <SearchBar />
-            <div className="mt-10">
-                {contactInfo.map(contact => (
-                <h1 
-                 className="text-gray-100 text-xl font-bold mt-4 ml-10"
-                 key={contact.id}>{contact.name}</h1>
-                ))}
+            <div className="sidebar-container">
+                <MenuBar />
+                <SearchBar />
+                <div className="contacts-container">
+                    {contactInfo.map((contact) => (
+                        <div
+                            key={contact.socket_id}
+                            className="contact-item"
+                            onClick={() => handleContactClick(contact)}
+                        >
+                            <div className="contact-image-container">
+                                <img
+                                    src={contact.profile_picture}
+                                    alt={`${contact.name}'s profile`}
+                                    className="contact-image"
+                                />
+                                {contact.active && (
+                                    <span className="contact-active-indicator"></span>
+                                )}
+                            </div>
+                            <span className="contact-name">{contact.name}</span>
+                        </div>
+                    ))}
+                </div>
+                <Login />
             </div>
-            <Login />
-        </div>
-    </>
-    )
+            {selectedContact && (
+                <Profile contact={selectedContact} closeProfile={closeProfile} />
+            )}
+        </>
+    );
 }
 
-export default SideBar
+export default SideBar;

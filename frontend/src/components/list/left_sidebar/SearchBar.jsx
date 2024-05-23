@@ -1,17 +1,16 @@
 import React from "react";
+import './list.css'; 
 
 function SearchBar() {
     return(
-        <div className="mt-4">
-        <input
-            type="text"
-            placeholder="Search Here ..."
-            className=" ml-5 w-full md:w-64 bg-blue-400 border rounded-2xl px-5 py-2 outline-none text-gray-100 placeholder-gray-100 font-bold"
-
-        />
-     </div>
-    )
-
+        <div className="search-bar">
+            <input
+                type="text"
+                placeholder="Search Here ..."
+                className="search-input"
+            />
+        </div>
+    );
 }
 
-export default SearchBar
+export default SearchBar;
