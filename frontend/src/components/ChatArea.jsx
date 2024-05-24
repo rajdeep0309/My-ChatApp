@@ -7,7 +7,7 @@ function ChatArea() {
 	return (
 		<div className='chat-area'>
 			<div className='chat-area-header'>
-				<div className='chat-area-header-text'>Rajdeep Ghosh</div>
+				<div className='chat-area-header-text'>Sohal Koley</div>
 				<div className='chat-area-header-buttons'>
 					<img
 						src={CallBtn}
