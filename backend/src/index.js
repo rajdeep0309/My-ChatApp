@@ -9,9 +9,6 @@ dotenv.config(
         path: "./.env"
     }
 );
-
-
-
 connectDB()
 .then(()=>{
     console.log("MongoDB Connected")

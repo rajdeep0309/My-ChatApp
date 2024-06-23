@@ -1,9 +1,18 @@
 import React from 'react';
 import ChatWindow from './components/ChatWindow';
+import Signup from './components/signup/SignupPage';
+import Login from './components/signup/LoginPage';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 function App() {
 	return (
 		<div className='App'>
-			<ChatWindow />
+			<BrowserRouter>
+				<Routes>
+					<Route path='/signup' element={<Signup />} />
+					<Route path='/login' element={<Login />} />
+					<Route path='/index' element={<ChatWindow />}></Route>
+				</Routes>
+			</BrowserRouter>
 		</div>
 	);
 }
