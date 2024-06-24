@@ -31,7 +31,7 @@ function SideBar({ onSelectUser }) {
 									src={contact.profile_picture}
 									alt={`${contact.name}'s profile`}
 									className='contact-image'
-									onClick={() => handleContactClick(contact)}
+									
 								/>
 								{contact.active && (
 									<span className='contact-active-indicator'></span>
@@ -47,9 +47,7 @@ function SideBar({ onSelectUser }) {
 				</div>
 				<Login />
 			</div>
-			{selectedContact && (
-				<Profile contact={selectedContact} closeProfile={closeProfile} />
-			)}
+			
 		</>
 	);
 }
