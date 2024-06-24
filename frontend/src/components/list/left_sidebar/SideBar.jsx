@@ -5,12 +5,13 @@ import MenuBar from "./MenuBar";
 import Contact from "./Contact";
 import Profile from "../right_sidebar/Profile"
 
-function SideBar() {
+function SideBar({ onSelectUser }) {
     const contactInfo = Contact();
     const [selectedContact, setSelectedContact] = useState(null);
 
     const handleContactClick = (contact) => {
         setSelectedContact(contact);
+        onSelectUser(contact);
     };
 
     const closeProfile = () => {

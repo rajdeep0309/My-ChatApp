@@ -3,6 +3,7 @@ import ChatWindow from './components/ChatWindow';
 import Signup from './components/signup/SignupPage';
 import Login from './components/signup/LoginPage';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
 function App() {
 	return (
 		<div className='App'>
