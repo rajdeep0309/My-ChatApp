@@ -3,15 +3,11 @@ import SearchBar from "./SearchBar";
 import Login from "./Login";
 import MenuBar from "./MenuBar";
 import Contact from "./Contact";
-import Profile from "../right_sidebar/Profile"
+import Profile from "../right_sidebar/Profile";
 
-<<<<<<< HEAD
+
 function SideBar({ onSelectUser }) {
-    const contactInfo = Contact();
-=======
-function SideBar() {
     const { contactInfo } = Contact();
->>>>>>> 4b194e3ceec705b69da2dd20e5217799c080da60
     const [selectedContact, setSelectedContact] = useState(null);
 
     const handleContactClick = (contact) => {
