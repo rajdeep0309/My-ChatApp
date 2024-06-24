@@ -3,6 +3,8 @@ import './ChatArea.css';
 import CallBtn from '../assets/Call Button.png';
 import VideoBtn from '../assets/VC Button.png';
 import SendBtn from '../assets/SendButton.png';
+import MessageOthers from './chat/MessageOthers';
+import MessageSelf from './chat/MessageSelf';
 function ChatArea() {
 	return (
 		<div className='chat-area'>
@@ -20,8 +22,11 @@ function ChatArea() {
 				</div>
 			</div>
 
-			<div className='chat-area-messages'>Body</div>
-			<div className=     'text-input-area'>
+			<div className='chat-area-messages'>
+				<MessageOthers/>
+				<MessageSelf/>
+			</div>
+			<div className='text-input-area'>
 				<input
 					placeholder='Type a message.....'
 					className='chat-area-type-area'></input>
