@@ -8,7 +8,6 @@ function ChatWindow() {
     const [activeUser, setActiveUser] = useState('');
     function handleSelectUser(e){
         setActiveUser(e);
-        console.log(e);
     }
     
 	return (
