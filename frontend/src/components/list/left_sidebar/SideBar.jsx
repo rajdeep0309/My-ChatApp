@@ -6,7 +6,7 @@ import Contact from "./Contact";
 import Profile from "../right_sidebar/Profile"
 
 function SideBar() {
-    const contactInfo = Contact();
+    const { contactInfo } = Contact();
     const [selectedContact, setSelectedContact] = useState(null);
 
     const handleContactClick = (contact) => {
@@ -27,13 +27,13 @@ function SideBar() {
                         <div
                             key={contact.socket_id}
                             className="contact-item"
-                            onClick={() => handleContactClick(contact)}
                         >
                             <div className="contact-image-container">
                                 <img
                                     src={contact.profile_picture}
                                     alt={`${contact.name}'s profile`}
                                     className="contact-image"
+                                    onClick={() => handleContactClick(contact)}    
                                 />
                                 {contact.active && (
                                     <span className="contact-active-indicator"></span>

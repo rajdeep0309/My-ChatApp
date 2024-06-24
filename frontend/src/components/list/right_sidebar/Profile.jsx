@@ -1,6 +1,10 @@
+
 import React from 'react';
 import { IoIosClose } from "react-icons/io";
 import './profile.css';
+import { FaGithub } from "react-icons/fa";
+import { FaLinkedin } from "react-icons/fa";
+import { FaSquareXTwitter } from "react-icons/fa6";
 
 function Profile({ contact, closeProfile }) {
     return (
@@ -24,6 +28,20 @@ function Profile({ contact, closeProfile }) {
                 <h1 className="profile-detail-item">{contact.location}</h1>
                 <h1 className="profile-detail-item">{contact.contact_no}</h1>
                 <h1 className="profile-detail-item">{contact.email}</h1>
+            </div>
+            <div className="profile-media">
+                <h1 className="profile-media-heading">Media</h1>
+                <div className="media-buttons">
+                    <button className="media-button">
+                        <FaGithub size={40} />
+                    </button>
+                    <button className="media-button">
+                        <FaLinkedin size={40} />
+                    </button>
+                    <button className="media-button">
+                        <FaSquareXTwitter size={40}/>
+                    </button>
+                </div>
             </div>
         </div>
     );
