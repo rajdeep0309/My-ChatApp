@@ -27,8 +27,8 @@ const generateAccessAndRefereshTokens = async (userId) => {
 
 const registerUser = asyncHandler(async (req, res) => {
   //get the data from the request body
-  console.log(req.body);
-  console.log(req.files);
+  // console.log(req.body);
+  // console.log(req.files);
   const {
     username,
     fullname,
@@ -61,7 +61,7 @@ const registerUser = asyncHandler(async (req, res) => {
   // const avatarLocalPath = req.body.avatar;
   // console.log(existedUser);
   //check if the avatar  is uploaded
-console.log(avatarLocalPath);
+// console.log("Avatar link:",avatarLocalPath);
   if (!avatarLocalPath) {
     throw new ApiError(400, "Please upload avatar  ");
   }
@@ -103,7 +103,6 @@ console.log(avatarLocalPath);
 
 const loginUser = asyncHandler(async (req, res) => {
   //get the data from the request body
-  console.log(req);
   console.log("data received from the frontend");
 
   const { email, username, password } = req.body;

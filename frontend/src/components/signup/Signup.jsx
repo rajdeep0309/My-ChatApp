@@ -11,33 +11,33 @@ fields.forEach((field) => (fieldsState[field.id] = ""));
 
 export default function Signup() {
   const [signupState, setSignupState] = useState(fieldsState);
-  const [file, setFile] = useState(null);
+  const [avatar, setAvatar] = useState(null);
   const [progress, setProgress] = useState({ starte: false, percentage: 0 });
 
   const handleChange = (e) => {
-    if (e.target.type === "file") setFile(e.target.files[0]);
+    if (e.target.type === "file") setAvatar(e.target.files[0]);
     setSignupState({ ...signupState, [e.target.id]: e.target.value });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(signupState);
+    // console.log(signupState);
     createAccount();
   };
 
   //handle Signup API Integration here
   const createAccount = async () => {
-    console.log(typeof signupState.avatar);
-    if (!file) {
+    console.log(typeof avatar);
+    if (!avatar) {
       console.log("Please upload Profile Picture");
       return;
     }
-    console.log(file);
+    // console.log(avatar);
     const fd = new FormData();
     fd.append("username", signupState.username);
     fd.append("fullname", signupState.fullname);
     fd.append("email", signupState.email);
-    fd.append("file", file);
+    fd.append("avatar", avatar);
     fd.append("password", signupState.password);
     fd.append("gender", signupState.gender);
     fd.append("github", signupState.github);
@@ -61,10 +61,10 @@ export default function Signup() {
     // };
 
     // console.log({ data });
-    const headers = {
-      // "Content-Type": "application/json",
-      'Content-Type': 'multipart/form-data'
-    };
+    // const headers = {
+    //   // "Content-Type": "application/json",
+    //   'Content-Type': 'multipart/form-data'
+    // };
   
       try {
         const response = await axios.post("http://localhost:3001/api/v1/user/register", fd, {
@@ -75,7 +75,10 @@ export default function Signup() {
             "%"
         );
           },
-          headers: headers,
+          // headers: headers,
+          headers: {
+            "Content-Type": 'multipart/form-data',
+          },
         });
 
         console.log(response.data);
