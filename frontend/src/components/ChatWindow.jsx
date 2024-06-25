@@ -4,6 +4,7 @@ import './ChatWindow.css';
 import ChatArea from './ChatArea';
 import SideBar from './list/left_sidebar/SideBar';
 import { ContactContext } from '../store/contact-details-context';
+import Wall from './Wallpaper'
 function ChatWindow() {
     const [activeUser, setActiveUser] = useState('');
     function handleSelectUser(e){
@@ -14,7 +15,8 @@ function ChatWindow() {
 		<ContactContext.Provider value={activeUser}>
 			<div className='chat-window'>
 				<SideBar onSelectUser={handleSelectUser}></SideBar>
-				<ChatArea></ChatArea>
+				{ activeUser ? (<ChatArea></ChatArea>) : (<Wall></Wall>) }
+				
 			</div>
 		</ContactContext.Provider>
 	);
