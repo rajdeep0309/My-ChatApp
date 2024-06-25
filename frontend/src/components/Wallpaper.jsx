@@ -3,8 +3,8 @@ import './ChatArea.css';
 import Wall from '../assets/swall.jpg';
 function Wallpaper(){
     return (
-        <div className="bg-wallpaper">
-            <img src={Wall}/>
+        <div className="chat-area">
+            <img src={Wall} className='img-wall'/>
         </div>
     );
 }
