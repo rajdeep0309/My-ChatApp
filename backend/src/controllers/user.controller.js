@@ -27,7 +27,8 @@ const generateAccessAndRefereshTokens = async (userId) => {
 
 const registerUser = asyncHandler(async (req, res) => {
   //get the data from the request body
-  console.log(req);
+  console.log(req.body);
+  console.log(req.files);
   const {
     username,
     fullname,

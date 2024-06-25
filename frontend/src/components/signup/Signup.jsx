@@ -11,9 +11,13 @@ fields.forEach((field) => (fieldsState[field.id] = ""));
 
 export default function Signup() {
   const [signupState, setSignupState] = useState(fieldsState);
+  const [file, setFile] = useState(null);
+  const [progress, setProgress] = useState({ starte: false, percentage: 0 });
 
-  const handleChange = (e) =>
+  const handleChange = (e) => {
+    if (e.target.type === "file") setFile(e.target.files[0]);
     setSignupState({ ...signupState, [e.target.id]: e.target.value });
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -24,44 +28,78 @@ export default function Signup() {
   //handle Signup API Integration here
   const createAccount = async () => {
     console.log(typeof signupState.avatar);
-    var data = new FormData();
-    data.append("username", signupState.username);
-    // data.append('fullname', signupState.fullname)
-    // data.append('email', signupState.email)
-    // data.append('file', signupState.avatar[0])
-    // data.append('password', signupState.password)
-    // data.append('gender', signupState.gender)
-    const data = {
-      username: signupState.username,
-      fullname: signupState.fullname,
-      email: signupState.email,
-      avatar: signupState.avatar,
-      password: signupState.password,
-      github: signupState.github,
-      linkedin: signupState.linkedin,
-      twitter: signupState.twitter,
-      phone: signupState.phone,
-      address: signupState.address,
-      gender: signupState.gender,
-    };
+    if (!file) {
+      console.log("Please upload Profile Picture");
+      return;
+    }
+    console.log(file);
+    const fd = new FormData();
+    fd.append("username", signupState.username);
+    fd.append("fullname", signupState.fullname);
+    fd.append("email", signupState.email);
+    fd.append("file", file);
+    fd.append("password", signupState.password);
+    fd.append("gender", signupState.gender);
+    fd.append("github", signupState.github);
+    fd.append("linkedin", signupState.linkedin);
+    fd.append("twitter", signupState.twitter);
+    fd.append("phone", signupState.phone);
+    fd.append("address", signupState.address);
+
+    // const data = {
+    //   username: signupState.username,
+    //   fullname: signupState.fullname,
+    //   email: signupState.email,
+    //   avatar: signupState.avatar,
+    //   password: signupState.password,
+    //   github: signupState.github,
+    //   linkedin: signupState.linkedin,
+    //   twitter: signupState.twitter,
+    //   phone: signupState.phone,
+    //   address: signupState.address,
+    //   gender: signupState.gender,
+    // };
 
     // console.log({ data });
     const headers = {
-      "Content-Type": "application/json",
-      // 'Content-Type': 'multipart/form-data'
+      // "Content-Type": "application/json",
+      'Content-Type': 'multipart/form-data'
     };
-    try {
-      const responses = await axios({
-        method: "post",
-        url: "http://localhost:3001/api/v1/user/register",
-        data: data,
-        formData: true,
-        headers: headers,
-      });
-      console.log(responses.data.data.accessToken);
-    } catch (error) {
-      console.log(error);
-    }
+  
+      try {
+        const response = await axios.post("http://localhost:3001/api/v1/user/register", fd, {
+          onUploadProgress: (progressEvent) => {
+        console.log(
+          "Upload Progress: " +
+            Math.round((progressEvent.loaded / progressEvent.total) * 100) +
+            "%"
+        );
+          },
+          headers: headers,
+        });
+
+        console.log(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+      // axios.post("http://localhost:3001/api/v1/user/register", fd, {
+      //   onUploadProgress: (progressEvent) => {
+      //     console.log(
+      //       "Upload Progress: " +
+      //         Math.round((progressEvent.loaded / progressEvent.total) * 100) +
+      //         "%"
+      //     );
+      //   },
+      //   headers: {
+      //     "Content-Type": 'form-data',
+      //   },
+
+      // })
+      // .then((response) => {
+      //   console.log(response.data);
+      // }).catch((error) => {
+      //   console.log(error);
+      // });
     // localStorage.setItem('accessToken',responses.data.data.accessToken);
   };
 
