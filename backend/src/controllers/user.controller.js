@@ -3,7 +3,7 @@ import ApiError from "../utils/ApiError.js";
 import User from "../models/user.model.js";
 import uploadCloudinary from "../utils/cloudinary.js";
 import ApiResponse from "../utils/ApiResponse.js";
-import {options} from "../constants.js";
+import { options } from "../constants.js";
 import jwt from "jsonwebtoken";
 
 //function of generating the access token and refresh token
@@ -27,7 +27,19 @@ const generateAccessAndRefereshTokens = async (userId) => {
 
 const registerUser = asyncHandler(async (req, res) => {
   //get the data from the request body
-  const { username, fullname, email, password,gender,github,linkedin,twitter,address,phone } = req.body;
+  console.log(req);
+  const {
+    username,
+    fullname,
+    email,
+    password,
+    gender,
+    github,
+    linkedin,
+    twitter,
+    address,
+    phone,
+  } = req.body;
   //   console.log(username, fullname, email, password);
   //valid username,fullname,email,password!!!!!!!!!!!!!!!!!!
   if (
@@ -43,19 +55,20 @@ const registerUser = asyncHandler(async (req, res) => {
   const existedUser = await User.findOne({
     $or: [{ username }, { email }],
   });
-  console.log(existedUser);
+  // console.log(existedUser);
   const avatarLocalPath = req.files?.avatar?.[0]?.path ?? "";
-
+  // const avatarLocalPath = req.body.avatar;
+  // console.log(existedUser);
   //check if the avatar  is uploaded
-
-  if (!avatarLocalPath ) {
+console.log(avatarLocalPath);
+  if (!avatarLocalPath) {
     throw new ApiError(400, "Please upload avatar  ");
   }
 
   //upload the avatar and cover image to cloudinary
   const avatar = await uploadCloudinary(avatarLocalPath);
 
-  if (!avatar ) {
+  if (!avatar) {
     throw new ApiError(500, "Failed to upload avatar ");
   }
 
@@ -71,8 +84,7 @@ const registerUser = asyncHandler(async (req, res) => {
     twitter,
     github,
     phone,
-    address
-
+    address,
   });
   //send the response
   const createUser = User.findById(newUser._id)
@@ -90,7 +102,9 @@ const registerUser = asyncHandler(async (req, res) => {
 
 const loginUser = asyncHandler(async (req, res) => {
   //get the data from the request body
-  // console.log(req);
+  console.log(req);
+  console.log("data received from the frontend");
+
   const { email, username, password } = req.body;
   // console.log(req.body);
   // console.log(email, username, password);
@@ -124,7 +138,6 @@ const loginUser = asyncHandler(async (req, res) => {
     "-password -refreshToken"
   );
   //send the cookies
-  
 
   //send the response
 
@@ -140,30 +153,26 @@ const loginUser = asyncHandler(async (req, res) => {
       })
     );
 });
-const loggedoutUser = asyncHandler(
-  async (req, res) => {
-    const user=await User.findByIdAndUpdate(
-      req.user._id,
-      {
-        $set: {
-          refreshTokens: undefined,
-        },
+const loggedoutUser = asyncHandler(async (req, res) => {
+  const user = await User.findByIdAndUpdate(
+    req.user._id,
+    {
+      $set: {
+        refreshTokens: undefined,
       },
-      {
-        new: true,
-        runValidators: true,
-      }
-    );
-   
-    return res
-      .status(200)
-      .clearCookie("accessToken", options)
-      .clearCookie("refreshToken", options)
-      .json(new ApiResponse(200, "User logged out successfully", user));
-  }
+    },
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
 
-  
-);
+  return res
+    .status(200)
+    .clearCookie("accessToken", options)
+    .clearCookie("refreshToken", options)
+    .json(new ApiResponse(200, "User logged out successfully", user));
+});
 
 const refershAccessToken = asyncHandler(async (req, res) => {
   const { refreshToken } = req.cookies;
@@ -184,7 +193,7 @@ const refershAccessToken = asyncHandler(async (req, res) => {
   const { accessToken, refreshToken: newRefreshToken } =
     await generateAccessAndRefereshTokens(user._id);
   //send the cookies
- 
+
   //send the response
   return res
     .status(200)
@@ -234,35 +243,35 @@ const updateAccountDetails = asyncHandler(async (req, res) => {
       new: true,
       runValidators: true,
     }
-  ).select("-password "); 
+  ).select("-password ");
 
   return res
     .status(200)
     .json(new ApiResponse(200, "Account details updated successfully", user));
 });
 
-
 const updateUserAvatar = asyncHandler(async (req, res) => {
-  const avatarLocalPath=req.file?.path;
-  if(!avatarLocalPath){
-    throw new ApiError(400,"Please upload an avatar");
+  const avatarLocalPath = req.file?.path;
+  if (!avatarLocalPath) {
+    throw new ApiError(400, "Please upload an avatar");
   }
-  const avatar=await uploadCloudinary(avatarLocalPath);
-  if(!avatar.url){
-    throw new ApiError(500,"Failed to upload avatar");
+  const avatar = await uploadCloudinary(avatarLocalPath);
+  if (!avatar.url) {
+    throw new ApiError(500, "Failed to upload avatar");
   }
-  const user=await User.findOneAndUpdate(
+  const user = await User.findOneAndUpdate(
     req.user._id,
     {
-      $set:{avatar:avatar.url},
+      $set: { avatar: avatar.url },
     },
     {
-      new:true,
-      runValidators:true,
-      
+      new: true,
+      runValidators: true,
     }
   ).select("-password");
-  return res.status(200).json(new ApiResponse(200,"Avatar updated successfully",user));
+  return res
+    .status(200)
+    .json(new ApiResponse(200, "Avatar updated successfully", user));
 });
 
 const currUser = asyncHandler(async (req, res) => {
@@ -270,13 +279,13 @@ const currUser = asyncHandler(async (req, res) => {
     .status(200)
     .json(new ApiResponse(200, "User found successfully", req.user));
 });
-export { 
-  registerUser, 
-  loginUser, 
-  loggedoutUser, 
+export {
+  registerUser,
+  loginUser,
+  loggedoutUser,
   currUser,
   refershAccessToken,
   changeCurrentPassword,
   updateAccountDetails,
-  updateUserAvatar
+  updateUserAvatar,
 };

@@ -1,67 +1,147 @@
-const loginFields=[
-    {
-        labelText:"Email address",
-        labelFor:"email-address",
-        id:"email-address",
-        name:"email",
-        type:"email",
-        autoComplete:"email",
-        isRequired:true,
-        placeholder:"Email address"   
-    },
-    {
-        labelText:"Password",
-        labelFor:"password",
-        id:"password",
-        name:"password",
-        type:"password",
-        autoComplete:"current-password",
-        isRequired:true,
-        placeholder:"Password"   
-    }
-]
+const loginFields = [
+  {
+    labelText: "Email address",
+    labelFor: "email-address",
+    id: "email",
+    name: "email",
+    type: "email",
+    autoComplete: "email",
+    isRequired: true,
+    placeholder: "Email address",
+  },
+  {
+    labelText: "Password",
+    labelFor: "password",
+    id: "password",
+    name: "password",
+    type: "password",
+    autoComplete: "current-password",
+    isRequired: true,
+    placeholder: "Password",
+  },
+];
 
-const signupFields=[
-    {
-        labelText:"Username",
-        labelFor:"username",
-        id:"username",
-        name:"username",
-        type:"text",
-        autoComplete:"username",
-        isRequired:true,
-        placeholder:"Username"   
-    },
-    {
-        labelText:"Email address",
-        labelFor:"email-address",
-        id:"email-address",
-        name:"email",
-        type:"email",
-        autoComplete:"email",
-        isRequired:true,
-        placeholder:"Email address"   
-    },
-    {
-        labelText:"Password",
-        labelFor:"password",
-        id:"password",
-        name:"password",
-        type:"password",
-        autoComplete:"current-password",
-        isRequired:true,
-        placeholder:"Password"   
-    },
-    {
-        labelText:"Confirm Password",
-        labelFor:"confirm-password",
-        id:"confirm-password",
-        name:"confirm-password",
-        type:"password",
-        autoComplete:"confirm-password",
-        isRequired:true,
-        placeholder:"Confirm Password"   
-    }
-]
+const signupFields = [
+  {
+    labelText: "FullName",
+    labelFor: "FullName",
+    id: "fullname",
+    name: "fullname",
+    type: "text",
+    autoComplete: "fullname",
+    isRequired: true,
+    placeholder: "Fullname",
+  },
+  {
+    labelText: "Username",
+    labelFor: "username",
+    id: "username",
+    name: "username",
+    type: "text",
+    autoComplete: "username",
+    isRequired: true,
+    placeholder: "Username",
+  },
+  {
+    labelText: "Email address",
+    labelFor: "email-address",
+    id: "email",
+    name: "email",
+    type: "email",
+    autoComplete: "email",
+    isRequired: true,
+    placeholder: "Email address",
+  },
+  {
+    labelText: "Avatar",
+    labelFor: "Avatar",
+    id: "avatar",
+    name: "avatar",
+    type: "file",
+    autoComplete: "avatar",
+    isRequired: true,
+    placeholder: "Profile Picture",
+  },
+  {
+    labelText: "gender",
+    labelFor: "gender",
+    id: "gender",
+    name: "gender",
+    type: "text",
+    autoComplete: "gender",
+    isRequired: true,
+    placeholder: "M/F/O",
+  },
+  {
+    labelText: "linkedin",
+    labelFor: "linkedin",
+    id: "linkedin",
+    name: " linkedin",
+    type: " url",
+    autoComplete: "linkedin",
+    
+    placeholder: "Linkedin",
+  },
+  {
+    labelText: "github",
+    labelFor: " github",
+    id: "github",
+    name: " github",
+    type: " url",
+    autoComplete: "github",
+    
+    placeholder: "Github",
+  },
+  {
+    labelText: "twitter",
+    labelFor: "twitter",
+    id: "twitter",
+    name: " twitter",
+    type: " url",
+    autoComplete: "twitter",
+    
+    placeholder: "Twitter",
+  },
+  {
+    labelText: "address",
+    labelFor: "address",
+    id: "address",
+    name: "address",
+    type: " text",
+    autoComplete: "address",
+    
+    placeholder: "Address",
+  },
+  {
+    labelText: "phone",
+    labelFor: "phone",
+    id: "phone",
+    name: "phone",
+    type: "number",
+    autoComplete: "phone",
+    
+    placeholder: "Phone Number",
+  },
+  {
+    labelText: "Password",
+    labelFor: "password",
+    id: "password",
+    name: "password",
+    type: "password",
+    autoComplete: "current-password",
+    isRequired: true,
+    placeholder: "Password",
+  },
+  {
+    labelText: "Confirm Password",
+    labelFor: "confirm-password",
+    id: "confirm-password",
+    name: "confirm-password",
+    type: "password",
+    autoComplete: "confirm-password",
+    isRequired: true,
+    placeholder: "Confirm Password",
+  },
+];
 
-export {loginFields,signupFields}
+export { loginFields, signupFields };
