@@ -31,7 +31,7 @@ export default function Signup() {
     // data.append('file', signupState.avatar[0])
     // data.append('password', signupState.password)
     // data.append('gender', signupState.gender)
-    const data = {
+    const data1 = {
       username: signupState.username,
       fullname: signupState.fullname,
       email: signupState.email,
@@ -54,7 +54,7 @@ export default function Signup() {
       const responses = await axios({
         method: "post",
         url: "http://localhost:3001/api/v1/user/register",
-        data: data,
+        data: data1,
         formData: true,
         headers: headers,
       });
