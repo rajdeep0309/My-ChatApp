@@ -59,14 +59,14 @@ export default function Signup() {
           navigate('/login');
         }
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
       
   };
 
   return (
-    <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-      <div className="">
+    <form className="mt-8 space-y-6 pt-0 pb-28" onSubmit={handleSubmit}>
+      <div className="h-1">
         {fields.map((field) => (
           <Input
             key={field.id}

@@ -56,17 +56,23 @@ const registerUser = asyncHandler(async (req, res) => {
     $or: [{ username }, { email }],
   });
   
+  if(existedUser){
+    throw new ApiError(401, "User already exists"); // user already exists 401
+  }
+
+
+
   const avatarLocalPath = req.files?.avatar?.[0]?.path ?? "";
 
   if (!avatarLocalPath) {
-    throw new ApiError(400, "Please upload avatar  ");
+    throw new ApiError(402, "Please upload avatar  "); // 402 
   }
 
   //upload the avatar and cover image to cloudinary
   const avatar = await uploadCloudinary(avatarLocalPath);
 
   if (!avatar) {
-    throw new ApiError(500, "Failed to upload avatar ");
+    throw new ApiError(500, "Failed to upload avatar "); // 500 failed 
   }
 
   //register the user
@@ -89,11 +95,11 @@ const registerUser = asyncHandler(async (req, res) => {
     .then((user) => {
       return res
         .status(201)
-        .json(new ApiResponse(201, "User registered successfully", user));
+        .json(new ApiResponse(201, "User registered successfully", user)); // 201 user 
     });
 
   if (!createUser) {
-    throw new ApiError(500, "Failed to register user");
+    throw new ApiError(501, "Failed to register user"); //failed to register 
   }
 });
 
@@ -105,7 +111,7 @@ const loginUser = asyncHandler(async (req, res) => {
  
   //   valid username,password
   if (!username && !email) {
-    throw new ApiError(400, "Please fill in all fields");
+    throw new ApiError(403, "Please fill all fields");  
   }
 
   //check if the user exists
@@ -114,13 +120,13 @@ const loginUser = asyncHandler(async (req, res) => {
   });
   //   .select("-refreshToken -password");
   if (!existedUser) {
-    throw new ApiError(400, "User does not exist");
+    throw new ApiError(404, "User does not exist"); //user not exits 
   }
   //check if the password is correct
   const isPasswordValid = await existedUser.isPasswordCorrect(password);
 
   if (!isPasswordValid) {
-    throw new ApiError(400, "Invalid password");
+    throw new ApiError(405, "Invalid password");
   }
 
   //generate the access token and refresh token
@@ -134,7 +140,7 @@ const loginUser = asyncHandler(async (req, res) => {
 
 
   //send the response
-
+  // sucess 200 
   return res
     .status(200)
     .cookie("accessToken", accessToken, options)
@@ -165,7 +171,7 @@ const loggedoutUser = asyncHandler(async (req, res) => {
     .status(200)
     .clearCookie("accessToken", options)
     .clearCookie("refreshToken", options)
-    .json(new ApiResponse(200, "User logged out successfully", user));
+    .json(new ApiResponse(202, "User logged out successfully", user));
 });
 
 const refershAccessToken = asyncHandler(async (req, res) => {
@@ -181,7 +187,7 @@ const refershAccessToken = asyncHandler(async (req, res) => {
   //check if the user exists
   const user = await User.findById(decodedToken._id);
   if (!user) {
-    throw new ApiError(401, "User not authenticated");
+    throw new ApiError(406, "User not authenticated"); 
   }
   //generate the access token and refresh token
   const { accessToken, refreshToken: newRefreshToken } =
@@ -226,7 +232,7 @@ const changeCurrentPassword = asyncHandler(async (req, res) => {
 const updateAccountDetails = asyncHandler(async (req, res) => {
   const { username, fullname, email } = req.body;
   if (!username || !fullname || !email) {
-    throw new ApiError(400, "Please fill in all fields");
+    throw new ApiError(403, "Please fill in all fields");
   }
   const user = await User.findByIdAndUpdate(
     req.user?._id,
