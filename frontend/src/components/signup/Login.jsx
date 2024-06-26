@@ -37,24 +37,18 @@ export default function Login() {
     };
 
     //
-   try {
-    const responses=await axios(
-         {
-             method: 'post',
-             url: 'http://localhost:3001/api/v1/user/login',
-             data: data,
-             headers: headers
-         }
-     )
-     console.log(responses.data.data.accessToken);
-     localStorage.setItem('accessToken',responses.data.data.accessToken);
-   } catch (error) {
-         console.log(error);
-    
-   }
-    
-
-    
+    try {
+      const responses = await axios({
+        method: "post",
+        url: "http://localhost:3001/api/v1/user/login",
+        data: data,
+        headers: headers,
+      });
+      console.log(responses.data.data.accessToken);
+      localStorage.setItem("accessToken", responses.data.data.accessToken);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

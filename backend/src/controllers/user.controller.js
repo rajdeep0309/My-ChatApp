@@ -27,8 +27,7 @@ const generateAccessAndRefereshTokens = async (userId) => {
 
 const registerUser = asyncHandler(async (req, res) => {
   //get the data from the request body
-  // console.log(req.body);
-  // console.log(req.files);
+
   const {
     username,
     fullname,
@@ -56,12 +55,9 @@ const registerUser = asyncHandler(async (req, res) => {
   const existedUser = await User.findOne({
     $or: [{ username }, { email }],
   });
-  // console.log(existedUser);
+  
   const avatarLocalPath = req.files?.avatar?.[0]?.path ?? "";
-  // const avatarLocalPath = req.body.avatar;
-  // console.log(existedUser);
-  //check if the avatar  is uploaded
-// console.log("Avatar link:",avatarLocalPath);
+
   if (!avatarLocalPath) {
     throw new ApiError(400, "Please upload avatar  ");
   }
@@ -106,9 +102,7 @@ const loginUser = asyncHandler(async (req, res) => {
   console.log("data received from the frontend");
 
   const { email, username, password } = req.body;
-  // console.log(req.body);
-  // console.log(email, username, password);
-
+ 
   //   valid username,password
   if (!username && !email) {
     throw new ApiError(400, "Please fill in all fields");
@@ -137,7 +131,7 @@ const loginUser = asyncHandler(async (req, res) => {
   const loggedInUser = await User.findById(existedUser._id).select(
     "-password -refreshToken"
   );
-  //send the cookies
+
 
   //send the response
 

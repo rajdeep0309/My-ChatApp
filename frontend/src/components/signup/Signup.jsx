@@ -47,27 +47,6 @@ export default function Signup() {
     fd.append("twitter", signupState.twitter);
     fd.append("phone", signupState.phone);
     fd.append("address", signupState.address);
-
-    // const data = {
-    //   username: signupState.username,
-    //   fullname: signupState.fullname,
-    //   email: signupState.email,
-    //   avatar: signupState.avatar,
-    //   password: signupState.password,
-    //   github: signupState.github,
-    //   linkedin: signupState.linkedin,
-    //   twitter: signupState.twitter,
-    //   phone: signupState.phone,
-    //   address: signupState.address,
-    //   gender: signupState.gender,
-    // };
-
-    // console.log({ data });
-    // const headers = {
-    //   // "Content-Type": "application/json",
-    //   'Content-Type': 'multipart/form-data'
-    // };
-  
       try {
         const response = await axios.post("http://localhost:3001/api/v1/user/register", fd,{
           // headers: headers,
@@ -82,25 +61,7 @@ export default function Signup() {
       } catch (error) {
         console.log(error);
       }
-      // axios.post("http://localhost:3001/api/v1/user/register", fd, {
-      //   onUploadProgress: (progressEvent) => {
-      //     console.log(
-      //       "Upload Progress: " +
-      //         Math.round((progressEvent.loaded / progressEvent.total) * 100) +
-      //         "%"
-      //     );
-      //   },
-      //   headers: {
-      //     "Content-Type": 'form-data',
-      //   },
-
-      // })
-      // .then((response) => {
-      //   console.log(response.data);
-      // }).catch((error) => {
-      //   console.log(error);
-      // });
-    // localStorage.setItem('accessToken',responses.data.data.accessToken);
+      
   };
 
   return (
