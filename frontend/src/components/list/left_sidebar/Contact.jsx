@@ -21,8 +21,7 @@ function Contact() {
             name: "Rajdeep Ghosh",
             active: false,
             socket_id: 3,
-            profile_picture: "https://images.pexels.com/photos/416160/pexels-photo-416160.jpeg?auto=compress&cs=tinysrgb&w=600",
-            location: "Kolkata, India",
+            profile_picture: "https://dragonball.guru/wp-content/uploads/2021/03/goku-profile-e1616173641804-400x400.png",
             contact_no:"9330806599",
             email:"rajdeep3.9ghosh@gmail.com"
         }

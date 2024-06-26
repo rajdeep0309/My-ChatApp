@@ -7,6 +7,7 @@ import MessageOthers from './chat/MessageOthers';
 import MessageSelf from './chat/MessageSelf';
 import { ContactContext } from '../store/contact-details-context';
 import Profile from './list/right_sidebar/Profile'
+import {motion, useScroll} from 'framer-motion';
 function ChatArea() {
 	const conCtx = useContext(ContactContext);
 	const [selectedContact, setSelectedContact] = useState(null);
@@ -36,6 +37,14 @@ function ChatArea() {
 			<div className='chat-area-messages'>
 				<MessageOthers/>
 				<MessageSelf/>
+				<MessageOthers/>
+				<MessageSelf/>
+				<MessageOthers/>
+				<MessageSelf/>
+				<MessageOthers/>
+				<MessageSelf/>
+				<MessageOthers/>
+				
 			</div>
 			<div className='text-input-area'>
 				<input

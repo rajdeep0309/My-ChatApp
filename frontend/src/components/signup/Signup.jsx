@@ -3,6 +3,7 @@ import { signupFields } from "./constants/formFields";
 import FormAction from "./FormAction";
 import Input from "./Input";
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 
 const fields = signupFields;
 let fieldsState = {};
@@ -11,6 +12,7 @@ fields.forEach((field) => (fieldsState[field.id] = ""));
 
 export default function Signup() {
   const [signupState, setSignupState] = useState(fieldsState);
+  const navigate = useNavigate();
   const [avatar, setAvatar] = useState(null);
   const [progress, setProgress] = useState({ starte: false, percentage: 0 });
 
@@ -67,21 +69,16 @@ export default function Signup() {
     // };
   
       try {
-        const response = await axios.post("http://localhost:3001/api/v1/user/register", fd, {
-          onUploadProgress: (progressEvent) => {
-        console.log(
-          "Upload Progress: " +
-            Math.round((progressEvent.loaded / progressEvent.total) * 100) +
-            "%"
-        );
-          },
+        const response = await axios.post("http://localhost:3001/api/v1/user/register", fd,{
           // headers: headers,
           headers: {
             "Content-Type": 'multipart/form-data',
           },
         });
 
-        console.log(response.data);
+        if(response.data.success) {
+          navigate('/login');
+        }
       } catch (error) {
         console.log(error);
       }

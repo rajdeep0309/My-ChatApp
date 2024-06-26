@@ -47,6 +47,8 @@
 .chat-area-messages {
 	background-color: #fff;
 	flex: 1;
+	overflow: scroll;
+	scrollbar-width: none;
 }
 .text-input-area {
 	background-color: #f1f2f3;
