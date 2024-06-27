@@ -17,6 +17,6 @@ router.route("/logout").post(verifyJWT,loggedoutUser);
 
 router.route("/refresh-access-token").post(refershAccessToken)
 
-router.get("/fetchUsers", verifyJWT, fetchAllUsersController);
+router.route("/fetchUsers").get(verifyJWT, fetchAllUsersController);
 
 export default router;

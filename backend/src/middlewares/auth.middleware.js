@@ -3,11 +3,11 @@ import ApiError from "../utils/ApiError.js";
 import jwt from "jsonwebtoken";
 import User from "../models/user.model.js";
 
-export const verifyJWT = asyncHandler(async (req, _, next) => {
+export const verifyJWT = asyncHandler(async (req,res, next) => {
   try {
     const accessToken =
       req.cookies?.accessToken ||
-      req.headers("authorization")?.replace("Bearer ", "");
+      req.headers["authorization"]?.replace("Bearer ", "");
     if (!accessToken) {
       return new ApiError(401, "User not authenticated");
     }
@@ -19,7 +19,7 @@ export const verifyJWT = asyncHandler(async (req, _, next) => {
 
     //check if the user exists
     const user = await User.findById(decodedToken._id).select(
-      "-password -refershToken"
+      "-password -refreshToken"
     );
 
     if (!user) {

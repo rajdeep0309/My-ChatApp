@@ -21,7 +21,7 @@ function ChatArea() {
 		<>
 		<div className='chat-area'>
 			<div className='chat-area-header'>
-				<div className='chat-area-header-text' onClick={() => handleContactClick()}>{conCtx.name}</div>
+				<div className='chat-area-header-text' onClick={() => handleContactClick()}>{conCtx.fullname}</div>
 				<div className='chat-area-header-buttons'>
 					<img
 						src={CallBtn}
