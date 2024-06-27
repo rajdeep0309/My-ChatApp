@@ -55,9 +55,18 @@ const registerUser = asyncHandler(async (req, res) => {
   const existedUser = await User.findOne({
     $or: [{ username }, { email }],
   });
-  
-  if(existedUser){
-    throw new ApiError(401, "User already exists"); // user already exists 401
+  const existedUserName = await User.findOne({
+    $or: [{ username }],
+  });
+  const existedUserEmail = await User.findOne({
+    $or: [{ email }],
+  });
+  if(existedUserName){
+    
+    throw new ApiError(401, "UserName already exists"); 
+  }
+  if(existedUserEmail){
+    throw new ApiError(402, "Email already exists"); 
   }
 
 
@@ -279,6 +288,22 @@ const currUser = asyncHandler(async (req, res) => {
     .status(200)
     .json(new ApiResponse(200, "User found successfully", req.user));
 });
+
+const fetchAllUsersController = asyncHandler(async (req, res) => {
+  const keyword = req.query.search
+    ? {
+        $or: [
+          { name: { $regex: req.query.search, $options: "i" } },
+          { email: { $regex: req.query.search, $options: "i" } },
+        ],
+      }
+    : {};
+
+  const users = await UserModel.find(keyword).find({
+    _id: { $ne: req.user._id },
+  });
+  res.send(users);
+});
 export {
   registerUser,
   loginUser,
@@ -288,4 +313,5 @@ export {
   changeCurrentPassword,
   updateAccountDetails,
   updateUserAvatar,
+  fetchAllUsersController
 };
