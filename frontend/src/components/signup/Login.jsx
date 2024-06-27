@@ -44,10 +44,10 @@ export default function Login() {
         data: data,
         headers: headers,
       });
-      console.log(responses.data.data.accessToken);
+      console.log(responses.data.message);
       localStorage.setItem("accessToken", responses.data.data.accessToken);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
