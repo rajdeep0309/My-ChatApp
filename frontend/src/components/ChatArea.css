@@ -58,6 +58,7 @@
 	border-radius: 22px;
 	display: flex;
 	justify-content: space-between;
+	
 }
 .chat-area-type-area {
 	outline-width: 0;
@@ -66,6 +67,7 @@
 	font-size: 1.25rem;
 	color: #000;
 	background-color: #f1f2f3;
+	width: 100%;
 }
 .chat-area-send-button-container {
 	width : 50px;

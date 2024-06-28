@@ -47,7 +47,7 @@ function UserProfile({ onClose }) {
 		padding: '16px',
 		boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
 		top: '50%',
-		left: '50%',
+		left: '50%',	
 		transform: 'translate(-50%, -50%)',
 	};
 	return (

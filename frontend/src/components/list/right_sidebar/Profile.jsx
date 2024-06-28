@@ -19,8 +19,8 @@ function Profile({ contact, closeProfile }) {
 				<div className='profile-content'>
 					<div className='profile-picture-container'>
 						<img
-							src={contact.profile_picture}
-							alt={`${contact.name}'s profile`}
+							src={contact.avatar}
+							alt={`${contact.fullname}'s profile`}
 							className='profile-picture'
 							onError={(e) => {
 								e.target.onerror = null;
@@ -28,14 +28,14 @@ function Profile({ contact, closeProfile }) {
 							}}
 						/>
 					</div>
-					<h1 className='profile-name'>{contact.name}</h1>
+					<h1 className='profile-name'>{contact.fullname}</h1>
 					<p className='profile-status'>
 						{contact.active ? 'Online' : 'Offline'}
 					</p>
 				</div>
 				<div className='profile-details'>
-					<h1 className='profile-detail-item'>{contact.location}</h1>
-					<h1 className='profile-detail-item'>{contact.contact_no}</h1>
+					<h1 className='profile-detail-item'>{contact.address}</h1>
+					<h1 className='profile-detail-item'>{contact.phone}</h1>
 					<h1 className='profile-detail-item'>{contact.email}</h1>
 				</div>
 				<div className='profile-media'>
