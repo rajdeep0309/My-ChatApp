@@ -3,18 +3,19 @@ import Chat from '../models/chat.model.js';
 import User from '../models/user.model.js';
 
 export const accessChat = asyncHandler(async (req, res) => {
+  console.log(req.user)
   const { userId } = req.body;
   if (!userId) {
     console.log("UserId param not sent with request");
     return res.sendStatus(400);
   }
-
-  var isChat = await chat
+  
+  var isChat = await Chat
     .find({
       isGroupChat: false,
       $and: [
         { users: { $elemMatch: { $eq: req.user._id } } },
-        { users: { elemMatch: { $eq: req.user._id } } },
+        { users: { $elemMatch: { $eq: req.user._id } } },
       ],
     })
     .populate("users", "-password")
@@ -40,6 +41,8 @@ export const accessChat = asyncHandler(async (req, res) => {
         "users",
         "-password"
       );
+      console.log("This is from fetch Chat")
+      console.log(FullChat);
       res.status(200).json(FullChat);
     } catch (error) {
       throw new Error(error.message);
@@ -48,6 +51,8 @@ export const accessChat = asyncHandler(async (req, res) => {
 });
 
 export const fetchChats = asyncHandler(async (req, res) => {
+  console.log("This is from fetch chats")
+  console.log(req.user)
   try {
     Chat.find({
       users: {
@@ -61,7 +66,7 @@ export const fetchChats = asyncHandler(async (req, res) => {
       .then(async (results) => {
         results = await User.populate(results, {
           path: "latestMessage.sender",
-          select: "name email",
+          select: "fullname email",
         });
         res.status(200).send(results);
       });

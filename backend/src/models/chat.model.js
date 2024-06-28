@@ -25,7 +25,7 @@ import mongoose from "mongoose";
 //     }
 // );
 // const Chat=mongoose.model('Chat',chatSchema);
-const chatModel = mongoose.Schema(
+const chatModel =new mongoose.Schema(
   {
     chatName: { type: String },
     isGroupChat: { type: Boolean },

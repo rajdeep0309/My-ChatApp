@@ -6,6 +6,7 @@ import SideBar from './list/left_sidebar/SideBar';
 import { ContactContext } from '../store/contact-details-context';
 import Wall from './Wallpaper';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 function ChatWindow() {
 	const [activeUser, setActiveUser] = useState('');
 	const userData = JSON.parse(localStorage.getItem('userData'));
@@ -16,10 +17,11 @@ function ChatWindow() {
 			console.log('User not Authenticated');
 			nav('/');
 		}
-	},[nav,userData]);
-
+	}, [nav, userData]);
+	const token = localStorage.getItem('accessToken');
 	function handleSelectUser(e) {
 		setActiveUser(e);
+		
 	}
 
 	return (

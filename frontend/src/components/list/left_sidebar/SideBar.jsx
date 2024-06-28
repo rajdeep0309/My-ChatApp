@@ -39,7 +39,7 @@ function SideBar({ onSelectUser }) {
 			}
 		};
 		getUsers();
-	},[refreshed]);
+	}, [refreshed]);
 	const closeProfile = () => {
 		setSelectedContact(null);
 	};
@@ -51,7 +51,24 @@ function SideBar({ onSelectUser }) {
 				<SearchBar />
 				<div className='contacts-container'>
 					{contactInfo.map((contact) => (
-						<div key={contact._id} className='contact-item'>
+						<div
+							key={contact._id}
+							className='contact-item'
+							onClick={() => {
+								console.log('Creating chat with ', contact.fullname);
+								const config = {
+									headers: {
+										Authorization: `Bearer ${token}`,
+									},
+								};
+								axios.post(
+									'http://localhost:3001/api/v1/chat/',
+									{
+										userId: contact._id,
+									},
+									config
+								);
+							}}>
 							<div className='contact-image-container'>
 								<img
 									src={contact.avatar}

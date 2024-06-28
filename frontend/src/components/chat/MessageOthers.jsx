@@ -15,7 +15,7 @@ function MessageOthers() {
 				}}
 				whileHover={{ scale: 1.06 }}
 				whileTap={{ scale: 0.8 }}
-				className='other-message-container'>
+				className='other-message-container' >
 				<div  className='conversation-container'>
 					<p className='con-icon'>
 						<h1>{props1.name[0]}</h1>

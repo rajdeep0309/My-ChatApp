@@ -1,10 +1,10 @@
 import express from 'express';
-import { allMessages, sendMessage } from '../controllers/messageControllers.js';
-import { protect } from '../middleware/authMiddleware.js';
+import { allMessages, sendMessage } from '../controllers/message.controller.js';
+import { verifyJWT } from '../middlewares/auth.middleware.js'
 
 const router = express.Router();
 
-router.route('/chatId').get(protect, allMessages);
-router.route('/').post(protect, sendMessage);
+router.route('/chatId').get(verifyJWT, allMessages);
+router.route('/').post(verifyJWT, sendMessage);
 
 export default router;
