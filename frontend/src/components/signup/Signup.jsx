@@ -15,7 +15,6 @@ fields.forEach((field) => (fieldsState[field.id] = ''));
 export default function Signup() {
 	const [signupState, setSignupState] = useState(fieldsState);
 	const [avatar, setAvatar] = useState(null);
-	const [progress, setProgress] = useState({ starte: false, percentage: 0 });
 	const [loginState, setLoginState] = useState(fieldsState);
 	const [loading, setLoading] = useState(false);
 	const [logInStatus, setLogInStatus] = useState('');

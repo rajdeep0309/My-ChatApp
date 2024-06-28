@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import SearchBar from './SearchBar';
-import Login from './Login';
+import Logout from './Logout';
 import MenuBar from './MenuBar';
 import Contact from './Contact';
 import Profile from '../right_sidebar/Profile';
@@ -15,9 +15,9 @@ function SideBar({ onSelectUser }) {
 		setSelectedContact(contact);
 		onSelectUser(contact);
 	};
-	const userData = JSON.parse(localStorage.getItem('userData'));
+	// const userData = JSON.parse(localStorage.getItem('userData'));
 	const token = localStorage.getItem('accessToken');
-	console.log(token);
+	// console.log(token);
 	useEffect(() => {
 		const getUsers = async () => {
 			try {
@@ -33,7 +33,7 @@ function SideBar({ onSelectUser }) {
 						setContactInfo(data.data);
 						// setRefresh(!refresh);
 					});
-				console.log(responses);
+				// console.log(responses);
 			} catch (e) {
 				console.log(e);
 			}
@@ -87,7 +87,7 @@ function SideBar({ onSelectUser }) {
 						</div>
 					))}
 				</div>
-				<Login />
+				<Logout />
 			</div>
 		</>
 	);

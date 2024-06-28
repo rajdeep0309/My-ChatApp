@@ -9,7 +9,7 @@ import jwt from "jsonwebtoken";
 //function of generating the access token and refresh token
 const generateAccessAndRefereshTokens = async (userId) => {
   try {
-    console.log("userId:", userId);
+    // console.log("userId:", userId);
     const existedUser = await User.findById(userId);
     const accessToken = existedUser.generateAccessToken();
     // console.log("existedUser:",existedUser);
@@ -114,7 +114,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
 const loginUser = asyncHandler(async (req, res) => {
   //get the data from the request body
-  console.log("data received from the frontend");
+  // console.log("data received from the frontend");
 
   const { email, username, password } = req.body;
  
@@ -239,14 +239,15 @@ const changeCurrentPassword = asyncHandler(async (req, res) => {
 });
 
 const updateAccountDetails = asyncHandler(async (req, res) => {
-  const { username, fullname, email } = req.body;
-  if (!username || !fullname || !email) {
-    throw new ApiError(403, "Please fill in all fields");
-  }
+  const { fullname,phone } = req.body;
+  // if (!username || !fullname || !email) {
+  //   throw new ApiError(403, "Please fill in all fields");
+  // }
+  // console.log("Body",req.body);
   const user = await User.findByIdAndUpdate(
     req.user?._id,
     {
-      $set: { username, fullname, email },
+      $set: {fullname, phone },
     },
     {
       new: true,
@@ -261,6 +262,8 @@ const updateAccountDetails = asyncHandler(async (req, res) => {
 
 const updateUserAvatar = asyncHandler(async (req, res) => {
   const avatarLocalPath = req.file?.path;
+  console.log(req);
+  console.log("avatarLocalPath", avatarLocalPath);
   if (!avatarLocalPath) {
     throw new ApiError(400, "Please upload an avatar");
   }
@@ -284,9 +287,12 @@ const updateUserAvatar = asyncHandler(async (req, res) => {
 });
 
 const currUser = asyncHandler(async (req, res) => {
+  // console.log("req.body", req.body);
+  const user_new = await User.findById(req.body._id).select("-password");
+  // console.log("user_new", user_new);
   return res
     .status(200)
-    .json(new ApiResponse(200, "User found successfully", req.user));
+    .json(new ApiResponse(200, "User found successfully",{user:user_new}));
 });
 
 const fetchAllUsersController = asyncHandler(async (req, res) => {

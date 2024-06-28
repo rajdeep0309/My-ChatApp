@@ -22,9 +22,8 @@ export default function Login() {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		// useEffect(() => {
 		authenticateUser();
-		// }, [loginState]);
+		
 	};
 
 	//Handle Login API Integration here
@@ -91,7 +90,7 @@ export default function Login() {
 				</div>
 
 				<FormExtra />
-				<FormAction handleSubmit={handleSubmit} text='Login' />
+				<FormAction handleSubmit={handleSubmit} text='Login'/>
 			</form>
       {logInStatus ? (
               <Toaster key={logInStatus.key} message={logInStatus.msg} />

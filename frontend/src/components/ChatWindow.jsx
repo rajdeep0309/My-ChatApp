@@ -10,7 +10,7 @@ import axios from 'axios';
 function ChatWindow() {
 	const [activeUser, setActiveUser] = useState('');
 	const userData = JSON.parse(localStorage.getItem('userData'));
-	console.log(userData);
+	// console.log(userData);
 	const nav = useNavigate();
 	useEffect(() => {
 		if (!userData) {
