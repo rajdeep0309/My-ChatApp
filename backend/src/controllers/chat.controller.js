@@ -1,9 +1,8 @@
-const asyncHandler = require("express-async-handler");
+import asyncHandler from '../utils/asyncHandler.js';
+import Chat from '../models/chat.model.js';
+import User from '../models/user.model.js';
 
-const Chat = require("../models/chat.model");
-const User = require("../models/user.model");
-
-const accessChat = asyncHandler(async (req, res) => {
+export const accessChat = asyncHandler(async (req, res) => {
   const { userId } = req.body;
   if (!userId) {
     console.log("UserId param not sent with request");
@@ -48,7 +47,7 @@ const accessChat = asyncHandler(async (req, res) => {
   }
 });
 
-const fetchChats = asyncHandler(async (req, res) => {
+export const fetchChats = asyncHandler(async (req, res) => {
   try {
     Chat.find({
       users: {
@@ -69,7 +68,7 @@ const fetchChats = asyncHandler(async (req, res) => {
   } catch (Error) {}
 });
 
-const fetchGroups = asyncHandler(async (req, res) => {
+export const fetchGroups = asyncHandler(async (req, res) => {
   try {
     const allGroups = await Chat.where("isGroupChat").equals(true);
     res.status(200).send(allGroups);
@@ -79,7 +78,7 @@ const fetchGroups = asyncHandler(async (req, res) => {
   }
 });
 
-const createGroupChat = asyncHandler(async (req, res) => {
+export const createGroupChat = asyncHandler(async (req, res) => {
   if (!req.body.users || !req.body.name) {
     return res.status(400).send({ message: "Data is insufficient" });
   }
@@ -107,7 +106,7 @@ const createGroupChat = asyncHandler(async (req, res) => {
   }
 });
 
-const groupExit = asyncHandler(async (req, res) => {
+export const groupExit = asyncHandler(async (req, res) => {
   const { chatId, userId } = req.body;
   const removed = await Chat.findById()
     .populate("users", "-passwords")
@@ -120,10 +119,4 @@ const groupExit = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = {
-  accessChat,
-  fetchChats,
-  fetchGroups,
-  createGroupChat,
-  groupExit
-};
+

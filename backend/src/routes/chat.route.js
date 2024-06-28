@@ -1,24 +1,19 @@
-import chatController from "../controllers/chat.controller";
-const {
+import express from 'express';
+import {
   accessChat,
   fetchChats,
   createGroupChat,
-  fetchGroups,
   groupExit,
-} = chatController
+  fetchGroups,
+} from '../controllers/chat.controller.js'
+import { verifyJWT } from "../middlewares/auth.middleware.js";
 
+const router = express.Router();
 
-const { protect } = require('../middlewares/auth.middleware')
+router.route("/").post(verifyJWT, accessChat);
+router.route("/").get(verifyJWT, fetchChats);
+router.route("/createGroup").post(verifyJWT, createGroupChat);
+router.route("/fetchGroups").get(verifyJWT, fetchGroups);
+router.route("/groupExit").put(verifyJWT, groupExit);
 
-
-const router = express.router();
-
-
-router.route("/").post(protect,accessChat);
-router.route("/").post(protect,fetchChats);
-router.route("/createGroup").post(protect,createGroupChat);
-router.route("/fetchGroups").get(protect,fetchGroups);
-router.route('/groupExit').post(protect,groupExit);
-
-
-module.exports = router;
+export default router;
