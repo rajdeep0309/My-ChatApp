@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 function ChatWindow() {
 	const [activeUser, setActiveUser] = useState('');
+	const [chatId, setChatId] = useState('');
 	const userData = JSON.parse(localStorage.getItem('userData'));
 	// console.log(userData);
 	const nav = useNavigate();
@@ -21,14 +22,18 @@ function ChatWindow() {
 	const token = localStorage.getItem('accessToken');
 	function handleSelectUser(e) {
 		setActiveUser(e);
-		
 	}
-
+	function handleChatId(e) {
+		setChatId(e.data._id);
+	}
+	
 	return (
 		<ContactContext.Provider value={activeUser}>
 			<div className='chat-window'>
-				<SideBar onSelectUser={handleSelectUser}></SideBar>
-				{activeUser ? <ChatArea></ChatArea> : <Wall></Wall>}
+				<SideBar
+					onSelectUser={handleSelectUser}
+					getChatId={handleChatId}></SideBar>
+				{activeUser ? <ChatArea activeUser={chatId}></ChatArea> : <Wall></Wall>}
 			</div>
 		</ContactContext.Provider>
 	);

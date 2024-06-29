@@ -8,13 +8,42 @@ import MessageSelf from './chat/MessageSelf';
 import { ContactContext } from '../store/contact-details-context';
 import Profile from './list/right_sidebar/Profile';
 import { motion, useScroll } from 'framer-motion';
-function ChatArea() {
+import { useParams } from "react-router-dom";
+import axios from 'axios';
+function ChatArea(props) {
+	console.log("This is from chatarea")
+	console.log(props.activeUser);
 	const message = useRef();
 	const [finalMessage, setFinalMessage] = useState('');
 	const conCtx = useContext(ContactContext);
+	console.log(conCtx._id);
 	const [selectedContact, setSelectedContact] = useState(null);
+	const token = localStorage.getItem('accessToken');
+	console.log(token)
+	const sendMessage = () => {
+		var data = null;
+		const config = {
+			headers : {
+				Authorization : `Bearer ${token}`,
+			}
+		}
+	
+	axios.post(
+		'http://localhost:3001/api/v1/message/',
+		{
+			content:finalMessage,
+			chatId: props.activeUser,
+			reciever: conCtx._id
+		},config
+	).then(({ data }) => {
+        console.log(data);
+      });
+	};
 	function handleSubmit() {
+
 		setFinalMessage(message.current.value);
+		sendMessage();
+		setFinalMessage('')
 		message.current.value = '';
 	}
 	const handleContactClick = () => {
