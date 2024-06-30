@@ -35,6 +35,7 @@ export default function Signup() {
 	const createAccount = async () => {
 		setLoading(true);
 		console.log(typeof avatar);
+		console.log(avatar)
 		if (!avatar) {
 			console.log('Please upload Profile Picture');
 			return;
