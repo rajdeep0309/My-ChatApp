@@ -169,7 +169,7 @@ function ChatArea({ activeUser }) {
 						}}></input>
 					<div
 						className='chat-area-send-button-container'
-						onChange={(e) => {
+						onClick={(e) => {
 							handleSubmit();
 						}}>
 						<img
