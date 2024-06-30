@@ -8,6 +8,7 @@ import Wall from './Wallpaper';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './list/left_sidebar/list.css';
+import UserProfile from './list/left_sidebar/UserProfile';
 function ChatWindow() {
 	const [activeUser, setActiveUser] = useState('');
 	const [chatId, setChatId] = useState('');
@@ -41,9 +42,8 @@ function ChatWindow() {
 					getChatId={handleChatId} 
 					toggleUserProfile={toggleUserProfile}/>
 				{activeUser ? 
-				<ChatArea activeUser={chatId} 
-				isProfileOpen={isProfileOpen}
-				toggleUserProfile={toggleUserProfile}/> : <Wall></Wall>}
+				<ChatArea activeUser={chatId} /> : <Wall></Wall>}
+				{isProfileOpen && <UserProfile onClose={toggleUserProfile} />}
 			</div>
 		</ContactContext.Provider>
 	);

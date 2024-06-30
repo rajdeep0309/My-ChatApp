@@ -7,11 +7,18 @@ import MessageOthers from './chat/MessageOthers';
 import MessageSelf from './chat/MessageSelf';
 import { ContactContext } from '../store/contact-details-context';
 import Profile from './list/right_sidebar/Profile';
-import UserProfile from './list/left_sidebar/UserProfile'
 import { motion, useScroll } from 'framer-motion';
 import { useParams } from "react-router-dom";
 import axios from 'axios';
-function ChatArea({activeUser, isProfileOpen, toggleUserProfile}) {
+
+const nameFormat = (e) => {
+	return e
+	  .split(' ')
+	  .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()) 
+	  .join(' ');
+};
+
+function ChatArea({activeUser}) {
 	console.log("This is from chatarea")
 	console.log(activeUser);
 	const message = useRef();
@@ -60,7 +67,7 @@ function ChatArea({activeUser, isProfileOpen, toggleUserProfile}) {
 					<div
 						className='chat-area-header-text'
 						onClick={() => handleContactClick()}>
-						{conCtx.fullname}
+						{nameFormat(conCtx.fullname)}
 					</div>
 					<div className='chat-area-header-buttons'>
 						<img
@@ -105,11 +112,6 @@ function ChatArea({activeUser, isProfileOpen, toggleUserProfile}) {
 							className='chat-area-send-button'></img>
 					</div>
 				</div>
-				{isProfileOpen && (
-				<UserProfile
-					onClose={toggleUserProfile}
-				/>
-			)}
 			</div>
 			{selectedContact && (
 				<Profile contact={conCtx} closeProfile={closeProfile} />

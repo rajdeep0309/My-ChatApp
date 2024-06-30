@@ -62,6 +62,14 @@ function SideBar({ onSelectUser,getChatId, toggleUserProfile}) {
 		setSelectedContact(null);
 	};
 
+	const nameFormat = (name) => {
+		return name
+			.split(' ')
+			.map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()) 
+			.join(' ');
+	};
+
+
 	return (
 		<>
 			<div className='sidebar-container'>
@@ -102,7 +110,7 @@ function SideBar({ onSelectUser,getChatId, toggleUserProfile}) {
 							</div>
 							<span
 								className='contact-name'>
-								{contact.fullname}
+								{nameFormat(contact.fullname)}
 							</span>
 						</div>
 					))}

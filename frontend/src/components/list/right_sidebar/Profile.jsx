@@ -5,6 +5,14 @@ import { FaGithub } from 'react-icons/fa';
 import { FaLinkedin } from 'react-icons/fa';
 import { FaSquareXTwitter } from 'react-icons/fa6';
 import { AnimatePresence, motion, useScroll } from 'framer-motion';
+
+const nameFormat = (name) => {
+	return name
+	  .split(' ')
+	  .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()) 
+	  .join(' ');
+};
+
 function Profile({ contact, closeProfile }) {
 	return (
 		<AnimatePresence>
@@ -28,7 +36,7 @@ function Profile({ contact, closeProfile }) {
 							}}
 						/>
 					</div>
-					<h1 className='profile-name'>{contact.fullname}</h1>
+					<h1 className='profile-name'>{nameFormat(contact.fullname)}</h1>
 					<p className='profile-status'>
 						{contact.active ? 'Online' : 'Offline'}
 					</p>
