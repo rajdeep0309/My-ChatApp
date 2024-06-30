@@ -7,9 +7,13 @@ import { ContactContext } from '../store/contact-details-context';
 import Wall from './Wallpaper';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import './list/left_sidebar/list.css';
+import UserProfile from './list/left_sidebar/UserProfile';
 function ChatWindow() {
 	const [activeUser, setActiveUser] = useState('');
+	const [chatId, setChatId] = useState('');
 	const userData = JSON.parse(localStorage.getItem('userData'));
+	const[isProfileOpen, setIsProfileOpen] = useState(false);
 	// console.log(userData);
 	const nav = useNavigate();
 	useEffect(() => {
@@ -21,14 +25,25 @@ function ChatWindow() {
 	const token = localStorage.getItem('accessToken');
 	function handleSelectUser(e) {
 		setActiveUser(e);
-		
 	}
+	function handleChatId(e) {
+		setChatId(e.data._id);
+	}
+
+	const toggleUserProfile = () => {
+		setIsProfileOpen(!isProfileOpen);
+	};
 
 	return (
 		<ContactContext.Provider value={activeUser}>
 			<div className='chat-window'>
-				<SideBar onSelectUser={handleSelectUser}></SideBar>
-				{activeUser ? <ChatArea></ChatArea> : <Wall></Wall>}
+				<SideBar
+					onSelectUser={handleSelectUser}
+					getChatId={handleChatId} 
+					toggleUserProfile={toggleUserProfile}/>
+				{activeUser ? 
+				<ChatArea activeUser={chatId} /> : <Wall></Wall>}
+				{isProfileOpen && <UserProfile onClose={toggleUserProfile} />}
 			</div>
 		</ContactContext.Provider>
 	);

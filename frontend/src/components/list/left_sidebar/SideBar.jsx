@@ -5,16 +5,20 @@ import MenuBar from './MenuBar';
 import Contact from './Contact';
 import Profile from '../right_sidebar/Profile';
 import axios from 'axios';
-
-function SideBar({ onSelectUser }) {
+import Cookies from 'js-cookie';
+function SideBar({ onSelectUser,getChatId, toggleUserProfile}) {
 	const [contactInfo, setContactInfo] = useState([]);
 	const [selectedContact, setSelectedContact] = useState(null);
 	const [refreshed, setRefreshed] = useState(false);
-
-	const handleContactClick = (contact) => {
+    const [conversations, setConversations] =  useState([]);
+	const handleContactClick = (contact,response) => {
 		setSelectedContact(contact);
 		onSelectUser(contact);
+		getChatId(response);
 	};
+	console.log("This..................................This")
+	const value = Cookies.get('accessToken');
+	console.log(value)
 	// const userData = JSON.parse(localStorage.getItem('userData'));
 	const token = localStorage.getItem('accessToken');
 	// console.log(token);
@@ -31,6 +35,7 @@ function SideBar({ onSelectUser }) {
 					.then((data) => {
 						console.log('UData refreshed in Users panel ');
 						setContactInfo(data.data);
+						
 						// setRefresh(!refresh);
 					});
 				// console.log(responses);
@@ -40,14 +45,38 @@ function SideBar({ onSelectUser }) {
 		};
 		getUsers();
 	}, [refreshed]);
+	useEffect(() => {
+		// console.log("Sidebar : ", user.token);
+		const config = {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		};
+
+		axios.get('http://localhost:3001/api/v1/chat/', config).then((response) => {
+			console.log('Data refresh in sidebar ', response.data);
+			setConversations(response.data);
+
+			// setRefresh(!refresh);
+		});
+	},[]);
+	console.log(contactInfo);
 	const closeProfile = () => {
 		setSelectedContact(null);
 	};
 
+	const nameFormat = (name) => {
+		return name
+			.split(' ')
+			.map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()) 
+			.join(' ');
+	};
+
+
 	return (
 		<>
 			<div className='sidebar-container'>
-				<MenuBar />
+				<MenuBar toggleUserProfile={toggleUserProfile}/>
 				<SearchBar />
 				<div className='contacts-container'>
 					{contactInfo.map((contact) => (
@@ -55,6 +84,7 @@ function SideBar({ onSelectUser }) {
 							key={contact._id}
 							className='contact-item'
 							onClick={() => {
+								
 								console.log('Creating chat with ', contact.fullname);
 								const config = {
 									headers: {
@@ -67,7 +97,9 @@ function SideBar({ onSelectUser }) {
 										userId: contact._id,
 									},
 									config
-								);
+								).then((response) => {
+									handleContactClick(contact,response)
+								});
 							}}>
 							<div className='contact-image-container'>
 								<img
@@ -80,9 +112,8 @@ function SideBar({ onSelectUser }) {
 								)}
 							</div>
 							<span
-								className='contact-name'
-								onClick={() => handleContactClick(contact)}>
-								{contact.fullname}
+								className='contact-name'>
+								{nameFormat(contact.fullname)}
 							</span>
 						</div>
 					))}

@@ -17,7 +17,7 @@ const allMessages = expressAsyncHandler(async (req, res) => {
 });
 
 const sendMessage = expressAsyncHandler(async (req, res) => {
-  const { content, chatId } = req.body;
+  const { content, chatId, reciever} = req.body;
 
   if (!content || !chatId) {
     console.log("Invalid data passed into request");
@@ -27,21 +27,15 @@ const sendMessage = expressAsyncHandler(async (req, res) => {
   const newMessage = {
     sender: req.user._id,
     content: content,
-    chat: chatId,
+    reciever : reciever,
+    chat: chatId, 
   };
 
   try {
     let message = await Message.create(newMessage);
 
     console.log(message);
-    message = await message
-      .populate("sender", "name pic")
-      .populate("chat")
-      .populate("reciever");
-    message = await User.populate(message, {
-      path: "chat.users",
-      select: "name email",
-    });
+    
 
     await Chat.findByIdAndUpdate(req.body.chatId, { latestMessage: message });
     res.json(message);

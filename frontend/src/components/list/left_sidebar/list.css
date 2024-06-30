@@ -142,10 +142,10 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(1px);
-    z-index: 9999;
-}
+    background-color: rgba(0, 0, 0, 0.3); 
+    z-index: 99;
+    backdrop-filter: blur(1px); 
+  }
 
 .user-profile-modal {
     position: fixed;
@@ -270,15 +270,67 @@
     font-size:xx-large;
   }
 
+
 .user-profile-phone {
-    font-size: 0.875rem;
-    color: #555;
+  margin-top: 16px;
+  font-size: 0.875rem;
+  ;
 }
 
+.user-profile-phone p {
+    font-size: 14px; 
+    color: #555; 
+    margin-bottom: 4px; 
+    margin-right: 10px;
+  }
+
 .user-profile-phone-number {
-    font-weight: bold;
-    font-size: 1rem;
-    margin-top: 0.25rem;
+  display: flex;
+  align-items: center;
+}
+
+.phone-number-display {
+  display: flex;
+  align-items: center;
+  font-size: 15px; 
+  font-weight: 500;
+}
+
+.number-save-icon {
+    cursor: pointer;
+    margin-left: 8px;;
+    font-size:x-large;
+}
+
+
+.number-edit-icon {
+  margin-left: 8px;
+  cursor: pointer;
+}
+
+
+.card {
+    position: fixed; 
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); 
+    z-index: 100;
+    background-color: white;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.profile-backdrop{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 200;
+    display: "flex";
+    align-items: "center";
+    justify-content: "center";
 }
 
 
