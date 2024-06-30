@@ -6,7 +6,7 @@ import Contact from './Contact';
 import Profile from '../right_sidebar/Profile';
 import axios from 'axios';
 
-function SideBar({ onSelectUser, getChatId}) {
+function SideBar({ onSelectUser,getChatId, toggleUserProfile}) {
 	const [contactInfo, setContactInfo] = useState([]);
 	const [selectedContact, setSelectedContact] = useState(null);
 	const [refreshed, setRefreshed] = useState(false);
@@ -65,7 +65,7 @@ function SideBar({ onSelectUser, getChatId}) {
 	return (
 		<>
 			<div className='sidebar-container'>
-				<MenuBar />
+				<MenuBar toggleUserProfile={toggleUserProfile}/>
 				<SearchBar />
 				<div className='contacts-container'>
 					{contactInfo.map((contact) => (

@@ -7,12 +7,13 @@ import MessageOthers from './chat/MessageOthers';
 import MessageSelf from './chat/MessageSelf';
 import { ContactContext } from '../store/contact-details-context';
 import Profile from './list/right_sidebar/Profile';
+import UserProfile from './list/left_sidebar/UserProfile'
 import { motion, useScroll } from 'framer-motion';
 import { useParams } from "react-router-dom";
 import axios from 'axios';
-function ChatArea(props) {
+function ChatArea({activeUser, isProfileOpen, toggleUserProfile}) {
 	console.log("This is from chatarea")
-	console.log(props.activeUser);
+	console.log(activeUser);
 	const message = useRef();
 	const [finalMessage, setFinalMessage] = useState('');
 	const conCtx = useContext(ContactContext);
@@ -32,7 +33,7 @@ function ChatArea(props) {
 		'http://localhost:3001/api/v1/message/',
 		{
 			content:finalMessage,
-			chatId: props.activeUser,
+			chatId: activeUser,
 			reciever: conCtx._id
 		},config
 	).then(({ data }) => {
@@ -104,6 +105,11 @@ function ChatArea(props) {
 							className='chat-area-send-button'></img>
 					</div>
 				</div>
+				{isProfileOpen && (
+				<UserProfile
+					onClose={toggleUserProfile}
+				/>
+			)}
 			</div>
 			{selectedContact && (
 				<Profile contact={conCtx} closeProfile={closeProfile} />
