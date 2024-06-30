@@ -5,7 +5,6 @@ import uploadCloudinary from "../utils/cloudinary.js";
 import ApiResponse from "../utils/ApiResponse.js";
 import { options } from "../constants.js";
 import jwt from "jsonwebtoken";
-import cookieParser from 'cookie-parser';
 
 //function of generating the access token and refresh token
 const generateAccessAndRefereshTokens = async (userId) => {
@@ -262,7 +261,7 @@ const updateAccountDetails = asyncHandler(async (req, res) => {
 });
 
 const updateUserAvatar = asyncHandler(async (req, res) => {
-  const avatarLocalPath = req.file?.path;
+  const avatarLocalPath = req.files?.avatar?.[0]?.path ?? "";
   console.log(req);
   console.log("avatarLocalPath", avatarLocalPath);
   if (!avatarLocalPath) {

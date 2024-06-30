@@ -1,9 +1,8 @@
 import React from 'react';
 import './Chats.css';
 import { AnimatePresence, motion, useSpring } from 'framer-motion';
-function MessageOthers({props}) {
+function MessageOthers() {
 	var props1 = { name: 'Shoal', message: 'something' };
-	console.log(props)
 	return (
 		<AnimatePresence>
 			<motion.div
@@ -19,10 +18,10 @@ function MessageOthers({props}) {
 				className='other-message-container' >
 				<div  className='conversation-container'>
 					<p className='con-icon'>
-						<h1>{props.fullname}</h1>
+						<h1>{props1.name[0]}</h1>
 					</p>
 					<div className='conversation-content'>
-						<p className='con-message'>{props.content}</p>
+						<p className='con-message'>{props1.message}</p>
 						<p className='con-lastMessage'>12:00am</p>
 					</div>
 				</div>
