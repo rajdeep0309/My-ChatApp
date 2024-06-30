@@ -1,4 +1,4 @@
-import React, { useContext, useState, useRef } from 'react';
+import React, { useContext, useState, useRef, useEffect } from 'react';
 import './ChatArea.css';
 import CallBtn from '../assets/Call Button.png';
 import VideoBtn from '../assets/VC Button.png';
@@ -8,50 +8,75 @@ import MessageSelf from './chat/MessageSelf';
 import { ContactContext } from '../store/contact-details-context';
 import Profile from './list/right_sidebar/Profile';
 import { motion, useScroll } from 'framer-motion';
-import { useParams } from "react-router-dom";
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
 const nameFormat = (e) => {
 	return e
-	  .split(' ')
-	  .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()) 
-	  .join(' ');
+		.split(' ')
+		.map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+		.join(' ');
 };
 
-function ChatArea({activeUser}) {
-	console.log("This is from chatarea")
+function ChatArea({ activeUser }) {
+	console.log('This is from chatarea');
 	console.log(activeUser);
 	const message = useRef();
 	const [finalMessage, setFinalMessage] = useState('');
+	const [allMessages, setAllMessages] = useState([]);
 	const conCtx = useContext(ContactContext);
 	console.log(conCtx._id);
 	const [selectedContact, setSelectedContact] = useState(null);
 	const token = localStorage.getItem('accessToken');
-	console.log(token)
+	console.log(token);
+	const dataid = JSON.parse(localStorage.getItem("userData"))
+	console.log("kloppppppp")
+	console.log(dataid.data.data.user._id)
+	// const {accessToken, refreshToken, user} = dataid.data.data.user;
+	// const userId = user._id;
 	const sendMessage = () => {
 		var data = null;
 		const config = {
-			headers : {
-				Authorization : `Bearer ${token}`,
-			}
-		}
-	
-	axios.post(
-		'http://localhost:3001/api/v1/message/',
-		{
-			content:finalMessage,
-			chatId: activeUser,
-			reciever: conCtx._id
-		},config
-	).then(({ data }) => {
-        console.log(data);
-      });
-	};
-	function handleSubmit() {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		};
 
+		axios
+			.post(
+				'http://localhost:3001/api/v1/message/',
+				{
+					content: finalMessage,
+					chatId: activeUser,
+					reciever: conCtx._id,
+				},
+				config
+			)
+			.then(({ data }) => {
+				console.log(data);
+			});
+	};
+
+	useEffect(() => {
+		console.log('Users refreshed');
+		const config = {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		};
+		axios
+			.get('http://localhost:3001/api/v1/message/' + activeUser, config)
+			.then(({ data }) => {
+				setAllMessages(data);
+				// console.log("Data from Acess Chat API ", data);
+			});
+		// scrollToBottom();
+	}, [activeUser, token]);
+	console.log(allMessages);
+	function handleSubmit() {
 		setFinalMessage(message.current.value);
 		sendMessage();
-		setFinalMessage('')
+		setFinalMessage('');
 		message.current.value = '';
 	}
 	const handleContactClick = () => {
@@ -82,15 +107,21 @@ function ChatArea({activeUser}) {
 				</div>
 
 				<div className='chat-area-messages'>
-					<MessageOthers />
-					<MessageSelf />
-					<MessageOthers />
-					<MessageSelf />
-					<MessageOthers />
-					<MessageSelf />
-					<MessageOthers />
-					<MessageSelf />
-					<MessageOthers />
+					{allMessages
+						.slice(0)
+						.reverse()
+						.map((message, index) => {
+							const sender = message.sender;
+							const self_id = dataid.data.data.user._id;
+							
+							if (sender._id === self_id) {
+								console.log('I sent it ');
+								return <MessageSelf props={message} key={index} />;
+							} else {
+								console.log('Someone Sent it');
+								return <MessageOthers props={message} key={index} />;
+							}
+						})}
 				</div>
 				<div className='text-input-area'>
 					<input

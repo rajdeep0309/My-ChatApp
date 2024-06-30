@@ -5,7 +5,7 @@ import MenuBar from './MenuBar';
 import Contact from './Contact';
 import Profile from '../right_sidebar/Profile';
 import axios from 'axios';
-
+import Cookies from 'js-cookie';
 function SideBar({ onSelectUser,getChatId, toggleUserProfile}) {
 	const [contactInfo, setContactInfo] = useState([]);
 	const [selectedContact, setSelectedContact] = useState(null);
@@ -16,6 +16,9 @@ function SideBar({ onSelectUser,getChatId, toggleUserProfile}) {
 		onSelectUser(contact);
 		getChatId(response);
 	};
+	console.log("This..................................This")
+	const value = Cookies.get('accessToken');
+	console.log(value)
 	// const userData = JSON.parse(localStorage.getItem('userData'));
 	const token = localStorage.getItem('accessToken');
 	// console.log(token);
