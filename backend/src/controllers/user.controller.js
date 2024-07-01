@@ -263,29 +263,30 @@ const updateAccountDetails = asyncHandler(async (req, res) => {
 
 const updateUserAvatar = asyncHandler(async (req, res) => {
   console.log(req.body);
-  console.log("Avatar",req.files);
-  const avatarLocalPath = req.files?.avatar?.[0]?.path ?? "";
-  console.log("avatarLocalPath", avatarLocalPath);
-  if (!avatarLocalPath) {
-    throw new ApiError(400, "Please upload an avatar");
-  }
-  const avatar = await uploadCloudinary(avatarLocalPath);
-  if (!avatar.url) {
-    throw new ApiError(500, "Failed to upload avatar");
-  }
-  const user = await User.findOneAndUpdate(
-    req.user._id,
-    {
-      $set: { avatar: avatar.url },
-    },
-    {
-      new: true,
-      runValidators: true,
-    }
-  ).select("-password");
-  return res
-    .status(200)
-    .json(new ApiResponse(200, "Avatar updated successfully", user));
+  console.log(req.file)
+  // console.log("Avatar",req.files);
+  // const avatarLocalPath = req.files?.avatar?.[0]?.path ?? "";
+  // console.log("avatarLocalPath", avatarLocalPath);
+  // if (!avatarLocalPath) {
+  //   throw new ApiError(400, "Please upload an avatar");
+  // }
+  // const avatar = await uploadCloudinary(avatarLocalPath);
+  // if (!avatar.url) {
+  //   throw new ApiError(500, "Failed to upload avatar");
+  // }
+  // const user = await User.findOneAndUpdate(
+  //   req.user._id,
+  //   {
+  //     $set: { avatar: avatar.url },
+  //   },
+  //   {
+  //     new: true,
+  //     runValidators: true,
+  //   }
+  // ).select("-password");
+  // return res
+  //   .status(200)
+  //   .json(new ApiResponse(200, "Avatar updated successfully", user));
 });
 
 const currUser = asyncHandler(async (req, res) => {

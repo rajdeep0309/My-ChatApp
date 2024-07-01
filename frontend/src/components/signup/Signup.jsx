@@ -42,7 +42,7 @@ export default function Signup() {
 		}
 		// console.log(avatar);
 		const fd = new FormData();
-		fd.append('username', signupState.username);
+		fd.append('username', signupState.username);xc
 		fd.append('fullname', signupState.fullname);
 		fd.append('email', signupState.email);
 		fd.append('avatar', avatar);

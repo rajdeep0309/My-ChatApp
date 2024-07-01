@@ -10,7 +10,7 @@ import {
   changeCurrentPassword,
   currUser,
 } from "../controllers/user.controller.js";
-import { verifyJWT } from "../middlewares/auth.middleware.js";
+import { verifyJWT } from "../middlewares/auth.middleware.js";  
 import upload from "../middlewares/multer.middleware.js";
 const router = Router();
 router
@@ -20,7 +20,7 @@ router
 router.route("/login").post(loginUser);
 
 router.route("/logout").post(verifyJWT, loggedoutUser);
-router.route("/updateAvatar").post(updateUserAvatar);
+router.route("/updateAvatar").post(upload.fields([{ name: "avatar", maxCount: 1 }]),updateUserAvatar);
 router.route("/updateAccountDetails").put(verifyJWT, updateAccountDetails);
 router.route("/userdetails").post(verifyJWT,currUser);
 
