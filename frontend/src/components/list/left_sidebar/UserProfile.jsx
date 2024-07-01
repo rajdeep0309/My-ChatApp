@@ -16,6 +16,8 @@ function UserProfile({ onClose }) {
   const [showProfile, setShowProfile] = useState(false);
   const [submitfile, setSubmitfile] = useState({});
   const [save, setSave] = useState(false);
+const [refresh, setRefresh] = useState(false);
+
   const local=JSON.parse(localStorage.getItem("userData"));
   const [userDetails, setUserDetails] = useState({
     fullname: local.fullname,
@@ -34,7 +36,8 @@ function UserProfile({ onClose }) {
 		github: user.github,
 		twitter: user.twitter,
 	});
-	  });
+	},[refresh]);
+
 
   useEffect(() => {
     fetch("http://localhost:3001/api/v1/user/updateAccountDetails", {
@@ -61,6 +64,7 @@ function UserProfile({ onClose }) {
       })
       .then((data) => {
 		localStorage.setItem('userData', JSON.stringify(data.data.data.user));
+		setRefresh(!refresh);
       });
   }, [save]);
 
