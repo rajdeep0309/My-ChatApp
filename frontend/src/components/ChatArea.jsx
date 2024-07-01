@@ -113,7 +113,7 @@ function ChatArea({ activeUser }) {
 			chatContainerRef.current.scrollTop =
 				chatContainerRef.current.scrollHeight;
 		}
-	}, [allMessages]);
+	});
 	return (
 		<>
 			<div
