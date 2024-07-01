@@ -136,6 +136,12 @@ function UserProfile({ onClose }) {
   const closeProfile = () => {
     setShowProfile(false);
   };
+  const handleBackdropClick = (e) => {
+		if (e.target === e.currentTarget) {
+		  closeProfile();
+		}
+};
+
 
   const HandleSubmit = async(e) => {
     e.preventDefault();
@@ -365,7 +371,7 @@ function UserProfile({ onClose }) {
       {showProfile && (
         <div
           className="profile-backdrop"
-          onClick={closeProfile}
+          onClick={handleBackdropClick}
         >
           <div
             className="profile-picture-content"
@@ -378,7 +384,7 @@ function UserProfile({ onClose }) {
               src={userDetails.avatar}
               alt="User Profile "
               className="user-profile-picture-large"
-              style={{ width: "65vw", height: "65vh", maxWidth: "70vw", maxHeight: "70vh", borderRadius: "8px" }}
+              style={{ width: "60vw", height: "80vh", maxWidth: "80vw", maxHeight: "80vh", borderRadius: "8px" }}
             />
           </div>
         </div>
