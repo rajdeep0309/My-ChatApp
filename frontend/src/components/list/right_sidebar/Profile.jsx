@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import { IoIosClose } from 'react-icons/io';
 import './profile.css';
 import { FaGithub } from 'react-icons/fa';
@@ -14,33 +14,6 @@ const nameFormat = (name) => {
 };
 
 function Profile({ contact, closeProfile }) {
-	const [showProfile, setShowProfile] = useState(false);
-	const handleViewProfile = () => {
-		setShowProfile(true);
-	  };
-	  const closedProfile = () => {
-		setShowProfile(false);
-	  };
-	  const handleBackdropClick = (e) => {
-		if (e.target === e.currentTarget) {
-		  closedProfile();
-		}
-	  };
-	const profilePictureStyle = {
-		position: "fixed",
-		top: "50%",
-		left: "50%",
-		transform: "translate(-50%, -50%)",
-		zIndex: 200,
-		backgroundColor: "white",
-		borderRadius: "8px",
-		padding: "8px",
-		boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-		display: "flex",
-		flexDirection: "column",
-		alignItems: "center",
-	};
-
 	return (
 		<AnimatePresence>
 			<motion.div
@@ -57,7 +30,6 @@ function Profile({ contact, closeProfile }) {
 							src={contact.avatar}
 							alt={`${contact.fullname}'s profile`}
 							className='profile-picture'
-							onClick={handleViewProfile}
 							onError={(e) => {
 								e.target.onerror = null;
 								e.target.src = 'https://via.placeholder.com/150';
@@ -89,28 +61,6 @@ function Profile({ contact, closeProfile }) {
 					</div>
 				</div>
 			</motion.div>
-			{showProfile && (
-        <div
-          className="contact-profile-backdrop"
-		  onClick={handleBackdropClick}
-          
-        >
-          <div
-            className="contact-profile-picture-content"
-            style={profilePictureStyle}
-          >
-            <button className="close-button" onClick={closedProfile}>
-              <IoIosClose size={40} />
-            </button>
-            <img
-              src={contact.avatar}
-              alt="Contact Profile "
-              className="contact-profile-picture-large"
-              style={{ maxWidth: "80vw", maxHeight: "80vh", borderRadius: "8px" }}
-            />
-          </div>
-        </div>
-      )}
 		</AnimatePresence>
 	);
 }
