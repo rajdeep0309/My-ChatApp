@@ -262,8 +262,9 @@ const updateAccountDetails = asyncHandler(async (req, res) => {
 });
 
 const updateUserAvatar = asyncHandler(async (req, res) => {
-  const avatarLocalPath = req.file?.path;
-  console.log(req);
+  console.log(req.body);
+  console.log("Avatar",req.files);
+  const avatarLocalPath = req.files?.avatar?.[0]?.path ?? "";
   console.log("avatarLocalPath", avatarLocalPath);
   if (!avatarLocalPath) {
     throw new ApiError(400, "Please upload an avatar");

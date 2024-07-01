@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef} from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { IoIosSend } from "react-icons/io";
 import { IoIosClose } from "react-icons/io";
 import { FaRegEdit } from "react-icons/fa";
@@ -19,7 +19,7 @@ function UserProfile({ onClose }) {
   const [isEditingName, setIsEditingName] = useState(false);
   const [isEditingNumber, setIsEditingNumber] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
-
+  const [submitfile, setSubmitfile] = useState(null);
   const [save, setSave] = useState(false);
   // console.log(data);
   const [userDetails, setUserDetails] = useState({
@@ -39,79 +39,86 @@ function UserProfile({ onClose }) {
       },
       body: JSON.stringify(userDetails),
     })
-      .then((response) =>{
-		console.log(response);
-	  })
+      .then((response) => {
+        console.log(response);
+      })
       .then((data) => {
         // console.log(data);
       })
       .catch((error) => {
         console.log(error);
       });
-//set updated data
-const data = JSON.parse(localStorage.getItem("userData"));
-axios.post("http://localhost:3001/api/v1/user/userdetails",data.data.data.user ,{
-	headers: {
-		Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-	},
-}).then((data1) => {
-	setUserDetails({
-		fullname: data1.data.data.user.fullname,
-		phone: data1.data.data.user.phone,
-		avatar: data1.data.data.user.avatar,
-		linkedin: data1.data.data.user.linkedin,
-		github: data1.data.data.user.github,
-		twitter: data1.data.data.user.twitter,
-	});
-});
-}, [save]);
+    //set updated data
+    const data = JSON.parse(localStorage.getItem("userData"));
+    axios.post("http://localhost:3001/api/v1/user/userdetails", data.data.data.user, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    }).then((data1) => {
+      setUserDetails({
+        fullname: data1.data.data.user.fullname,
+        phone: data1.data.data.user.phone,
+        avatar: data1.data.data.user.avatar,
+        linkedin: data1.data.data.user.linkedin,
+        github: data1.data.data.user.github,
+        twitter: data1.data.data.user.twitter,
+      });
+    });
+  }, [save]);
 
   const toggleEditOptions = () => {
     setShowEditOptions(!showEditOptions);
   };
 
-  const updateAvatar = async(e) => {
-    // console.log("Update Avatar", e.target.files[0]);
+  const updateAvatar = async (e) => {
+    console.log("Update Avatar", e.target.files[0]);
     // const data = JSON.parse(localStorage.getItem('userData'));
     // const fd = new FormData();
-    // fd.append('id', data.data.data.user._id);
     // fd.append('avatar', e.target.files[0]);
-    // const response = await axios.post(
-      // 	'http://localhost:3001/api/v1/user/updateAvatar',
-      // 	fd,
-      // 	{
-        // 		headers: {
-          // 			'Content-Type': 'multipart/form-data',
-          // 			Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-          
-          // 		},
-          // 	}
-          // );
-          
-          // if (response.data.success) {
-	// 	setSave(!save);
-	// 	console.log("Profile Picture Updated");
-	// }
-};
+    // fd.append('id', data.data.data.user._id);
 
-const handleEditProfile =(e) => {
-  console.log("Edit Profile");
-  fileInputRef.current.click();
-	updateAvatar(e);
-	
-};
+    // console.log(fd);
+    // try {
+    //   const response = await axios.put(
+    //     'http://localhost:3001/api/v1/user/updateAvatar',
+    //     fd,
+    //     {
+    //       headers: {
+    //         'Content-Type': 'multipart/form-data',
+    //         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
 
-const handleNameChange = (e) => {
+    //       },
+    //     }
+    //   );
+    //   console.log(response);
+
+    // } catch (error) {
+    //   console.log(error);
+    // }
+
+    // if (response.data.success) {
+    // 	setSave(!save);
+    // 	console.log("Profile Picture Updated");
+    // }
+  };
+
+  const handleEditProfile = (e) => {
+    console.log("Edit Profile");
+    if (e.target.type === 'file') setSubmitfile(e.target.files[0]);
+
+  };
+
+  const handleNameChange = (e) => {
     setUserDetails({ ...userDetails, fullname: e.target.value });
   };
   const handleNameSave = () => {
     setIsEditingName(false);
-    
+
     console.log("Name saved:", userDetails.fullname);
-    
+
     setSave(!save);
   };
-  
+
   const handleNumberChange = (e) => {
     setUserDetails({ ...userDetails, phone: e.target.value });
     // setSave(!save);
@@ -122,14 +129,57 @@ const handleNameChange = (e) => {
     // toast("Name saved successfully!");
     setSave(!save);
   };
-  
+
   const handleViewProfile = () => {
     setShowProfile(true);
   };
   const closeProfile = () => {
     setShowProfile(false);
   };
-  
+
+  const HandleSubmit = async(e) => {
+    e.preventDefault();
+    console.log("SUBMIT FILE", submitfile);
+    const data = JSON.parse(localStorage.getItem('userData'));
+    const fd = new FormData();
+    fd.append('id', data.data.data.user._id);
+    // fd.append('avatar', submitfile);
+    for(const value of fd.values()){
+      console.log(value);
+    }
+    // console.log(fd);
+      // fetch('http://localhost:3001/api/v1/user/updateAvatar', {
+      //   method: "POST",     
+      //   headers: {
+      //     'Content-Type': 'multipart/form-data',
+      //     Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+      //   },
+      //   body: fd,
+      // }).then((res) => {
+      //   console.log(res);
+
+      // }).catch((err) => {
+      //   console.log(err);
+      // })
+
+        try {
+        const response = await axios.post(
+          'http://localhost:3001/api/v1/user/updateAvatar',
+          fd,
+          {
+            headers: {
+             'Content-Type': 'multipart/form-data',
+            // "Content-Type": "application/json"
+            },
+          }
+        );
+        console.log(response);
+
+      } catch (error) {
+        console.log(error);
+      }
+  }
+
   const handleClickOutside = (e) => {
     if (optionsRef.current && !optionsRef.current.contains(e.target)) {
       setShowEditOptions(false);
@@ -198,7 +248,7 @@ const handleNameChange = (e) => {
         className="card"
         style={cardStyle}
         initial={{ opacity: 0 }}
-        animate={{ opacity: 1}}
+        animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
       >
         <div className="user-profile-modal">
@@ -222,9 +272,14 @@ const handleNameChange = (e) => {
             {showEditOptions && (
               <div className="edit-options" ref={optionsRef}>
                 <ul className="options-list">
+
                   <li onClick={handleViewProfile}>View Profile</li>
-                  <li onClick={handleEditProfile}>Edit Profile</li>
+                  {/* <li onClick={handleEditProfile}>Edit Profile</li> */}
                 </ul>
+                <form onSubmit={HandleSubmit}>
+                  <input type="file" onChange={handleEditProfile} />
+                  <button type="sumbit"> UPLOAD</button>
+                </form>
               </div>
             )}
           </div>
@@ -254,10 +309,10 @@ const handleNameChange = (e) => {
                 </>
               )}
             </div>
-      {/* ////////////////////////////////////////////// */}
-			<div className="user-profile-phone">
-				<p>Phone Number</p>
-		
+            {/* ////////////////////////////////////////////// */}
+            <div className="user-profile-phone">
+              <p>Phone Number</p>
+
               {isEditingNumber ? (
                 <div className="user-profile-phone-number">
                   <input
@@ -282,7 +337,7 @@ const handleNameChange = (e) => {
                 </div>
               )}
             </div>
-			{/* ////////////////////////////////////////////// */}
+            {/* ////////////////////////////////////////////// */}
           </div>
           <div className="profile-media">
             <h1 className="profile-media-heading">Media</h1>
@@ -306,14 +361,8 @@ const handleNameChange = (e) => {
           </div>
         </div>
       </motion.div>
-      <input
-        type="file"
-        ref={fileInputRef}
-        style={{ display: "none" }}
-        accept="image/*"
-        onChange={(e) => handleEditProfile(e)}
-      />
-       {showProfile && (
+
+      {showProfile && (
         <div
           className="profile-backdrop"
           onClick={closeProfile}
