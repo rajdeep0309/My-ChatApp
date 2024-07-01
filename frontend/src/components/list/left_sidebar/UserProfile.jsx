@@ -141,6 +141,7 @@ function UserProfile({ onClose }) {
 		setShowProfile(false);
 	};
 
+<<<<<<< HEAD
 	const HandleSubmit = async (e) => {
 		e.preventDefault();
 		console.log('SUBMIT FILE', submitfile);
@@ -151,6 +152,62 @@ function UserProfile({ onClose }) {
 		
     for (let [key, value] of fd.entries()) {
       console.log(`${key}: ${value}`);
+=======
+  const handleViewProfile = () => {
+    setShowProfile(true);
+  };
+  const closeProfile = () => {
+    setShowProfile(false);
+  };
+  const handleBackdropClick = (e) => {
+		if (e.target === e.currentTarget) {
+		  closeProfile();
+		}
+};
+
+
+  const HandleSubmit = async(e) => {
+    e.preventDefault();
+    console.log("SUBMIT FILE", submitfile);
+    const data = JSON.parse(localStorage.getItem('userData'));
+    const fd = new FormData();
+    fd.append('id', data.data.data.user._id);
+    // fd.append('avatar', submitfile);
+    for(const value of fd.values()){
+      console.log(value);
+    }
+    // console.log(fd);
+      // fetch('http://localhost:3001/api/v1/user/updateAvatar', {
+      //   method: "POST",     
+      //   headers: {
+      //     'Content-Type': 'multipart/form-data',
+      //     Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+      //   },
+      //   body: fd,
+      // }).then((res) => {
+      //   console.log(res);
+
+      // }).catch((err) => {
+      //   console.log(err);
+      // })
+
+        try {
+        const response = await axios.post(
+          'http://localhost:3001/api/v1/user/updateAvatar',
+          fd,
+          {
+            headers: {
+             'Content-Type': 'multipart/form-data',
+            // "Content-Type": "application/json"
+            },
+          }
+        );
+        console.log(response);
+
+      } catch (error) {
+        console.log(error);
+      }
+>>>>>>> 51f9f96fdc6de1bb6fb612c4940af62391b3a954
   }
 		// console.log(fd);
 		// fetch('http://localhost:3001/api/v1/user/updateAvatar', {
@@ -360,6 +417,7 @@ function UserProfile({ onClose }) {
 				</div>
 			</motion.div>
 
+<<<<<<< HEAD
 			{showProfile && (
 				<div className='profile-backdrop' onClick={closeProfile}>
 					<div className='profile-picture-content' style={profilePictureStyle}>
@@ -383,6 +441,31 @@ function UserProfile({ onClose }) {
 			)}
 		</AnimatePresence>
 	);
+=======
+      {showProfile && (
+        <div
+          className="profile-backdrop"
+          onClick={handleBackdropClick}
+        >
+          <div
+            className="profile-picture-content"
+            style={profilePictureStyle}
+          >
+            <button className="close-button" onClick={closeProfile}>
+              <IoIosClose size={40} />
+            </button>
+            <img
+              src={userDetails.avatar}
+              alt="User Profile "
+              className="user-profile-picture-large"
+              style={{  maxWidth: "80vw", maxHeight: "80vh", borderRadius: "8px" }}
+            />
+          </div>
+        </div>
+      )}
+    </AnimatePresence>
+  );
+>>>>>>> 51f9f96fdc6de1bb6fb612c4940af62391b3a954
 }
 
 export default UserProfile;
