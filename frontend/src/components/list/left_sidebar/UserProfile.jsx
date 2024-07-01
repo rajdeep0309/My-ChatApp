@@ -384,7 +384,7 @@ function UserProfile({ onClose }) {
               src={userDetails.avatar}
               alt="User Profile "
               className="user-profile-picture-large"
-              style={{ width: "60vw", height: "80vh", maxWidth: "80vw", maxHeight: "80vh", borderRadius: "8px" }}
+              style={{  maxWidth: "80vw", maxHeight: "80vh", borderRadius: "8px" }}
             />
           </div>
         </div>

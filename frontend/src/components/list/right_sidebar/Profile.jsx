@@ -106,7 +106,7 @@ function Profile({ contact, closeProfile }) {
               src={contact.avatar}
               alt="Contact Profile "
               className="contact-profile-picture-large"
-              style={{width:"60vw", height:"80vw", maxWidth: "80vw", maxHeight: "80vh", borderRadius: "8px" }}
+              style={{maxWidth: "80vw", maxHeight: "80vh", borderRadius: "8px" }}
             />
           </div>
         </div>
