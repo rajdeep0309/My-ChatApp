@@ -42,7 +42,7 @@ export default function Signup() {
 		}
 		// console.log(avatar);
 		const fd = new FormData();
-		fd.append('username', signupState.username);xc
+		fd.append('username', signupState.username);
 		fd.append('fullname', signupState.fullname);
 		fd.append('email', signupState.email);
 		fd.append('avatar', avatar);
@@ -67,7 +67,7 @@ export default function Signup() {
 			if (response.data.success) {
 				setSignInStatus({ msg: 'Success', key: Math.random() });
 				navigate('/');
-				localStorage.setItem('userData', JSON.stringify(response));
+				localStorage.setItem('userData', JSON.stringify(response.data.data.user));
 				setLoading(false);
 			}
 		} catch (error) {

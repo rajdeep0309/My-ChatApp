@@ -9,8 +9,8 @@ function Logout() {
     
     const onChangeHandler = (e) => {
     //   console.log('Logout');
-      const data = JSON.parse(localStorage.getItem('userData'));
-      const user= data.data.data.user;
+      const user = JSON.parse(localStorage.getItem('userData'));
+    //   const user= user;
       axios.post('http://localhost:3001/api/v1/user/logout',{user},{
         headers: {
           Authorization: `Bearer ${localStorage.getItem('accessToken')}`,

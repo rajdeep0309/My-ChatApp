@@ -52,7 +52,7 @@ export default function Login() {
 			setLogInStatus({ msg: 'Success', key: Math.random() });
 
 			localStorage.setItem('accessToken', responses.data.data.accessToken);
-			localStorage.setItem('userData', JSON.stringify(responses));
+			localStorage.setItem('userData', JSON.stringify(responses.data.data.user));
 			navigate('/chat');
       setLoading(false);
 		} catch (error) {

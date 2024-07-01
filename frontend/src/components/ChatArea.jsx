@@ -21,23 +21,20 @@ const nameFormat = (e) => {
 };
 var socket, chat;
 function ChatArea({ activeUser }) {
-	console.log('This is from chatarea');
-	console.log(activeUser);
+	////console.log('This is from chatarea');
+	////console.log(activeUser);
 	const message = useRef();
 	const [finalMessage, setFinalMessage] = useState('');
 	const [allMessages, setAllMessages] = useState([]);
 	const [allMessagesCopy, setAllMessagesCopy] = useState([]);
 	const conCtx = useContext(ContactContext);
-	console.log(conCtx._id);
+	////console.log(conCtx._id);
 	const [selectedContact, setSelectedContact] = useState(null);
 	const [socketConnectionStatus, setSocketConnectionStatus] = useState(false);
 	const token = localStorage.getItem('accessToken');
-	console.log(token);
+	//console.log(token);
 	const dataid = JSON.parse(localStorage.getItem('userData'));
-	console.log('kloppppppp');
-	console.log(dataid.data.data.user._id);
-	// const {accessToken, refreshToken, user} = dataid.data.data.user;
-	// const userId = user._id;
+	////console.log(dataid._id);
 	const sendMessage = () => {
 		var data = null;
 		const config = {
@@ -57,12 +54,12 @@ function ChatArea({ activeUser }) {
 				config
 			)
 			.then(({ data }) => {
-				console.log(data);
+				////console.log(data);
 			});
 	};
 	useEffect(() => {
 		socket = io(ENDPOINT);
-		socket.emit('setup', dataid.data.data.user);
+		socket.emit('setup', dataid);
 		socket.on('connection', () => {
 			setSocketConnectionStatus(!socketConnectionStatus);
 		});
@@ -77,7 +74,7 @@ function ChatArea({ activeUser }) {
 		});
 	});
 	useEffect(() => {
-		console.log('Users refreshed');
+		////console.log('Users refreshed');
 		const config = {
 			headers: {
 				Authorization: `Bearer ${token}`,
@@ -88,12 +85,12 @@ function ChatArea({ activeUser }) {
 			.then(({ data }) => {
 				setAllMessages(data);
 				socket.emit('join_chat', activeUser);
-				// console.log("Data from Acess Chat API ", data);
+				//console.log("Data from Acess Chat API ", data);
 			});
 		setAllMessagesCopy(allMessages);
 		// scrollToBottom();
 	}, [activeUser, token, allMessages]);
-	console.log(allMessages);
+	////console.log(allMessages);
 	function handleSubmit() {
 		setFinalMessage(message.current.value);
 		sendMessage();
@@ -143,13 +140,13 @@ function ChatArea({ activeUser }) {
 				<div className='chat-area-messages'>
 					{allMessages.slice(0).map((message, index) => {
 						const sender = message.sender;
-						const self_id = dataid.data.data.user._id;
+						const self_id = dataid._id;
 
 						if (sender._id === self_id) {
-							console.log('I sent it ');
+							////console.log('I sent it ');
 							return <MessageSelf props={message} key={index} />;
 						} else {
-							console.log('Someone Sent it');
+							////console.log('Someone Sent it');
 							return <MessageOthers props={message} key={index} />;
 						}
 					})}

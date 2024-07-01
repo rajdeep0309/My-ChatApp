@@ -3,10 +3,10 @@ import Chat from '../models/chat.model.js';
 import User from '../models/user.model.js';
 
 export const accessChat = asyncHandler(async (req, res) => {
-  console.log(req.user)
+  ////console.log(req.user)
   const { userId } = req.body;
   if (!userId) {
-    console.log("UserId param not sent with request");
+    ////console.log("UserId param not sent with request");
     return res.sendStatus(400);
   }
   
@@ -41,8 +41,8 @@ export const accessChat = asyncHandler(async (req, res) => {
         "users",
         "-password"
       );
-      console.log("This is from fetch Chat")
-      console.log(FullChat);
+      ////console.log("This is from fetch Chat")
+      ////console.log(FullChat);
       res.status(200).json(FullChat);
     } catch (error) {
       throw new Error(error.message);
@@ -51,8 +51,8 @@ export const accessChat = asyncHandler(async (req, res) => {
 });
 
 export const fetchChats = asyncHandler(async (req, res) => {
-  console.log("This is from fetch chats")
-  console.log(req.user)
+  ////console.log("This is from fetch chats")
+  ////console.log(req.user)
   try {
     Chat.find({
       users: {
@@ -88,7 +88,7 @@ export const createGroupChat = asyncHandler(async (req, res) => {
     return res.status(400).send({ message: "Data is insufficient" });
   }
   var users = JSON.parse(req.body.users);
-  console.log("chatController/createGroups: ", req.body);
+  ////console.log("chatController/createGroups: ", req.body);
   users.push(req.user);
   try {
     const groupChat = await Chat.create({

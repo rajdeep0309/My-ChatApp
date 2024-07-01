@@ -241,10 +241,8 @@ const changeCurrentPassword = asyncHandler(async (req, res) => {
 
 const updateAccountDetails = asyncHandler(async (req, res) => {
   const { fullname,phone } = req.body;
-  // if (!username || !fullname || !email) {
-  //   throw new ApiError(403, "Please fill in all fields");
-  // }
   // console.log("Body",req.body);
+  // console.log("Req user::",req.user);
   const user = await User.findByIdAndUpdate(
     req.user?._id,
     {
@@ -262,37 +260,39 @@ const updateAccountDetails = asyncHandler(async (req, res) => {
 });
 
 const updateUserAvatar = asyncHandler(async (req, res) => {
-  console.log(req.body);
-  console.log(req.file)
+  // console.log(req.body);
+  // console.log(req.user)
   // console.log("Avatar",req.files);
-  // const avatarLocalPath = req.files?.avatar?.[0]?.path ?? "";
+  const avatarLocalPath = req.files?.avatar?.[0]?.path ?? "";
   // console.log("avatarLocalPath", avatarLocalPath);
-  // if (!avatarLocalPath) {
-  //   throw new ApiError(400, "Please upload an avatar");
-  // }
-  // const avatar = await uploadCloudinary(avatarLocalPath);
-  // if (!avatar.url) {
-  //   throw new ApiError(500, "Failed to upload avatar");
-  // }
-  // const user = await User.findOneAndUpdate(
-  //   req.user._id,
-  //   {
-  //     $set: { avatar: avatar.url },
-  //   },
-  //   {
-  //     new: true,
-  //     runValidators: true,
-  //   }
-  // ).select("-password");
-  // return res
-  //   .status(200)
-  //   .json(new ApiResponse(200, "Avatar updated successfully", user));
+  if (!avatarLocalPath) {
+    throw new ApiError(400, "Please upload an avatar");
+  }
+  const avatar = await uploadCloudinary(avatarLocalPath);
+  //console.log("Avatar url", avatar.url);
+  if (!avatar.url) {
+    throw new ApiError(500, "Failed to upload avatar");
+  }
+  //console.log("update avatar", req.user._id);
+  const user = await User.findOneAndUpdate(
+    req.user._id,
+    {
+      $set: { avatar: avatar.url },
+    },
+    {
+      new: true,
+      runValidators: true,
+    }
+  ).select("-password");
+  return res
+    .status(200)
+    .json(new ApiResponse(200, "Avatar updated successfully", user));
 });
 
 const currUser = asyncHandler(async (req, res) => {
   // console.log("req.body", req.body);
   const user_new = await User.findById(req.body._id).select("-password");
-  // console.log("user_new", user_new);
+  //console.log("user_new", user_new);
   return res
     .status(200)
     .json(new ApiResponse(200, "User found successfully",{user:user_new}));

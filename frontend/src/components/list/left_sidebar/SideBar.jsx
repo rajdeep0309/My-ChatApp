@@ -16,9 +16,9 @@ function SideBar({ onSelectUser,getChatId, toggleUserProfile}) {
 		onSelectUser(contact);
 		getChatId(response);
 	};
-	console.log("This..................................This")
+	//console.log("This..................................This")
 	const value = Cookies.get('accessToken');
-	console.log(value)
+	//console.log(value)
 	// const userData = JSON.parse(localStorage.getItem('userData'));
 	const token = localStorage.getItem('accessToken');
 	// console.log(token);
@@ -33,7 +33,7 @@ function SideBar({ onSelectUser,getChatId, toggleUserProfile}) {
 				const responses = await axios
 					.get('http://localhost:3001/api/v1/user/fetchUsers', config)
 					.then((data) => {
-						console.log('UData refreshed in Users panel ');
+						//console.log('UData refreshed in Users panel ');
 						setContactInfo(data.data);
 						
 						// setRefresh(!refresh);
@@ -54,13 +54,13 @@ function SideBar({ onSelectUser,getChatId, toggleUserProfile}) {
 		};
 
 		axios.get('http://localhost:3001/api/v1/chat/', config).then((response) => {
-			console.log('Data refresh in sidebar ', response.data);
+			//console.log('Data refresh in sidebar ', response.data);
 			setConversations(response.data);
 
 			// setRefresh(!refresh);
 		});
 	},[]);
-	console.log(contactInfo);
+	//console.log(contactInfo);
 	const closeProfile = () => {
 		setSelectedContact(null);
 	};
@@ -85,7 +85,7 @@ function SideBar({ onSelectUser,getChatId, toggleUserProfile}) {
 							className='contact-item'
 							onClick={() => {
 								
-								console.log('Creating chat with ', contact.fullname);
+								// console.log('Creating chat with ', contact.fullname);
 								const config = {
 									headers: {
 										Authorization: `Bearer ${token}`,

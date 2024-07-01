@@ -20,7 +20,7 @@ router
 router.route("/login").post(loginUser);
 
 router.route("/logout").post(verifyJWT, loggedoutUser);
-router.route("/updateAvatar").post(upload.fields([{ name: "avatar", maxCount: 1 }]),updateUserAvatar);
+router.route("/updateAvatar").post(upload.fields([{ name: "avatar", maxCount: 1 }]),verifyJWT,updateUserAvatar);
 router.route("/updateAccountDetails").put(verifyJWT, updateAccountDetails);
 router.route("/userdetails").post(verifyJWT,currUser);
 
