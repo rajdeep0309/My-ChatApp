@@ -253,6 +253,7 @@ const updateAccountDetails = asyncHandler(async (req, res) => {
       runValidators: true,
     }
   ).select("-password ");
+  // console.log("User",user);
 
   return res
     .status(200)
@@ -292,7 +293,7 @@ const updateUserAvatar = asyncHandler(async (req, res) => {
 const currUser = asyncHandler(async (req, res) => {
   // console.log("req.body", req.body);
   const user_new = await User.findById(req.body._id).select("-password");
-  //console.log("user_new", user_new);
+  // console.log("user_new", user_new);
   return res
     .status(200)
     .json(new ApiResponse(200, "User found successfully",{user:user_new}));

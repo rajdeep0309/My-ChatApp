@@ -36,11 +36,11 @@ const [refresh, setRefresh] = useState(false);
 		github: user.github,
 		twitter: user.twitter,
 	});
+  
 	},[refresh]);
-
-
-  useEffect(() => {
-    fetch("http://localhost:3001/api/v1/user/updateAccountDetails", {
+  const update=async()=>{
+    // console.log("Entry:",userDetails);
+    const response=await fetch("http://localhost:3001/api/v1/user/updateAccountDetails", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -48,24 +48,28 @@ const [refresh, setRefresh] = useState(false);
       },
       body: JSON.stringify(userDetails),
     })
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    console.log(response);
+     
     //set updated data
     const user = JSON.parse(localStorage.getItem("userData"));
-    axios
+    const res=await axios
       .post("http://localhost:3001/api/v1/user/userdetails", user, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
       })
-      .then((data) => {
-		localStorage.setItem('userData', JSON.stringify(data.data.data.user));
+      // console.log("res:",res);
+		await localStorage.setItem('userData', JSON.stringify(res.data.data.user));
+    // console.log("after:",JSON.parse(localStorage.getItem("userData")));
 		setRefresh(!refresh);
-      });
+  };
+
+
+
+
+  useEffect(() => {
+    update();
+      
   }, [save]);
 
   const toggleEditOptions = () => {

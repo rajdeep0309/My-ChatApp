@@ -4,12 +4,10 @@ import { FaPlus } from "react-icons/fa";
 import "./list.css";
 function MenuBar({ toggleUserProfile }) {
   const [avatar, setAvatar] = useState("");
-  const [refresh, setRefresh] = useState(false);
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("userData"));
     setAvatar(user.avatar);
-    setRefresh(!refresh);
-  },[refresh]);
+  },[toggleUserProfile]);
 
   return (
     <div className="menu-bar">
