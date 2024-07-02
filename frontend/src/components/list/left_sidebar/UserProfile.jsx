@@ -5,6 +5,7 @@ import { FaRegEdit } from "react-icons/fa";
 import { FaGithub } from "react-icons/fa";
 import { FaLinkedin } from "react-icons/fa";
 import { FaSquareXTwitter } from "react-icons/fa6";
+import { LuUpload } from "react-icons/lu";
 import { AnimatePresence, motion, useSpring } from "framer-motion";
 import axios from "axios";
 
@@ -16,7 +17,8 @@ function UserProfile({ onClose }) {
   const [showProfile, setShowProfile] = useState(false);
   const [submitfile, setSubmitfile] = useState({});
   const [save, setSave] = useState(false);
-const [refresh, setRefresh] = useState(false);
+  const [refresh, setRefresh] = useState(false);
+  const [showUploadOptions, setShowUploadOptions] = useState(false);
 
   const local=JSON.parse(localStorage.getItem("userData"));
   const [userDetails, setUserDetails] = useState({
@@ -108,7 +110,11 @@ const [refresh, setRefresh] = useState(false);
   const closeProfile = () => {
     setShowProfile(false);
   };
-
+  const handleBackdropClick = (e) => {
+		if (e.target === e.currentTarget) {
+		  closeProfile();
+		}
+};
   const HandleSubmit = async (e) => {
     e.preventDefault();
     console.log("SUBMIT FILE", submitfile);
@@ -135,6 +141,7 @@ const [refresh, setRefresh] = useState(false);
       console.log(error);
     }
     setSave(!save);
+    setShowUploadOptions(false);
   };
 
   const handleClickOutside = (e) => {
@@ -229,10 +236,16 @@ const [refresh, setRefresh] = useState(false);
               <div className="edit-options" ref={optionsRef}>
                 <ul className="options-list">
                   <li onClick={handleViewProfile}>View Profile</li>
-                  {/* <li onClick={handleEditProfile}>Edit Profile</li> */}
+                  {!showUploadOptions && (
+                    <li onClick={() => setShowUploadOptions(true)}>Edit Profile</li>
+                  )}
                 </ul>
+                {showUploadOptions && (
+                  <div style={{ display: 'flex', alignItems: 'center', marginTop: '10px', padding: '8px' }}>
                 <input type="file" onChange={handleEditProfile} />
-                <button onClick={HandleSubmit}> UPLOAD</button>
+                <LuUpload  onClick={HandleSubmit} style={{ fontSize: '20px',fontWeight: 'bold', marginRight: '10px'}} /> 
+                </div>
+                )}
               </div>
             )}
           </div>
@@ -316,7 +329,7 @@ const [refresh, setRefresh] = useState(false);
       </motion.div>
 
       {showProfile && (
-        <div className="profile-backdrop" onClick={closeProfile}>
+        <div className="profile-backdrop" onClick={handleBackdropClick}>
           <div className="profile-picture-content" style={profilePictureStyle}>
             <button className="close-button" onClick={closeProfile}>
               <IoIosClose size={40} />
@@ -325,13 +338,7 @@ const [refresh, setRefresh] = useState(false);
               src={userDetails.avatar}
               alt="User Profile "
               className="user-profile-picture-large"
-              style={{
-                width: "65vw",
-                height: "65vh",
-                maxWidth: "70vw",
-                maxHeight: "70vh",
-                borderRadius: "8px",
-              }}
+              style={{maxWidth: "80vw", maxHeight: "80vh", borderRadius: "8px"}}
             />
           </div>
         </div>
