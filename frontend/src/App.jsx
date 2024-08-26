@@ -4,7 +4,10 @@ import Signup from './components/signup/SignupPage';
 import Login from './components/signup/LoginPage';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Wallpaper from './components/Wallpaper';
-
+// import dotenv from "dotenv";
+// dotenv.config({
+//   path: "./.env",
+// });
 function App() {
 	return (
 		<div className='App'>

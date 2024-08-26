@@ -31,7 +31,7 @@ function SideBar({ onSelectUser,getChatId, toggleUserProfile}) {
 					},
 				};
 				const responses = await axios
-					.get('http://localhost:3001/api/v1/user/fetchUsers', config)
+					.get(`https://my-chatapp-ygrg.onrender.com/api/v1/user/fetchUsers`, config)
 					.then((data) => {
 						//console.log('UData refreshed in Users panel ');
 						setContactInfo(data.data);
@@ -53,7 +53,7 @@ function SideBar({ onSelectUser,getChatId, toggleUserProfile}) {
 			},
 		};
 
-		axios.get('http://localhost:3001/api/v1/chat/', config).then((response) => {
+		axios.get(`https://my-chatapp-ygrg.onrender.com/api/v1/chat/`, config).then((response) => {
 			//console.log('Data refresh in sidebar ', response.data);
 			setConversations(response.data);
 
@@ -92,7 +92,7 @@ function SideBar({ onSelectUser,getChatId, toggleUserProfile}) {
 									},
 								};
 								axios.post(
-									'http://localhost:3001/api/v1/chat/',
+									`https://my-chatapp-ygrg.onrender.com/api/v1/chat/`,
 									{
 										userId: contact._id,
 									},

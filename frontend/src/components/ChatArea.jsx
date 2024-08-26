@@ -12,14 +12,15 @@ import { useParams } from 'react-router-dom';
 import { Socket, io } from 'socket.io-client';
 import axios, { all } from 'axios';
 
-const ENDPOINT = 'http://localhost:3001';
+// const ENDPOINT = "https://my-chatapp-ygrg.onrender.com";.
+const ENDPOINT = "https://my-chatapp-ygrg.onrender.com";
 const nameFormat = (e) => {
 	return e
 		.split(' ')
 		.map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
 		.join(' ');
 };
-var socket, chat;
+var socket;
 function ChatArea({ activeUser }) {
 	////console.log('This is from chatarea');
 	////console.log(activeUser);
@@ -36,7 +37,7 @@ function ChatArea({ activeUser }) {
 	const dataid = JSON.parse(localStorage.getItem('userData'));
 	////console.log(dataid._id);
 	const sendMessage = () => {
-		var data = null;
+		// Remove the declaration of 'data' since it is not being used.
 		const config = {
 			headers: {
 				Authorization: `Bearer ${token}`,
@@ -45,7 +46,7 @@ function ChatArea({ activeUser }) {
 
 		axios
 			.post(
-				'http://localhost:3001/api/v1/message/',
+				'https://my-chatapp-ygrg.onrender.com/api/v1/message/' + activeUser,
 				{
 					content: finalMessage,
 					chatId: activeUser,
@@ -53,12 +54,12 @@ function ChatArea({ activeUser }) {
 				},
 				config
 			)
-			.then(({ data }) => {
-				////console.log(data);
+			.then(() => {
+				// console.log(data);
 			});
 	};
 	useEffect(() => {
-		socket = io(ENDPOINT);
+		socket = io('https://my-chatapp-ygrg.onrender.com/');
 		socket.emit('setup', dataid);
 		socket.on('connection', () => {
 			setSocketConnectionStatus(!socketConnectionStatus);
@@ -81,7 +82,7 @@ function ChatArea({ activeUser }) {
 			},
 		};
 		axios
-			.get('http://localhost:3001/api/v1/message/' + activeUser, config)
+			.get('https://my-chatapp-ygrg.onrender.com/api/v1/message' + activeUser, config)
 			.then(({ data }) => {
 				setAllMessages(data);
 				socket.emit('join_chat', activeUser);

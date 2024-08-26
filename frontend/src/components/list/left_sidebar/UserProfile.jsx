@@ -42,7 +42,7 @@ function UserProfile({ onClose }) {
 	},[refresh]);
   const update=async()=>{
     // console.log("Entry:",userDetails);
-    const response=await fetch("http://localhost:3001/api/v1/user/updateAccountDetails", {
+    const response=await fetch(`https://my-chatapp-ygrg.onrender.com/api/v1/user/updateAccountDetails`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -55,7 +55,7 @@ function UserProfile({ onClose }) {
     //set updated data
     const user = JSON.parse(localStorage.getItem("userData"));
     const res=await axios
-      .post("http://localhost:3001/api/v1/user/userdetails", user, {
+      .post(`https://my-chatapp-ygrg.onrender.com/api/v1/user/userdetails`, user, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
@@ -128,7 +128,7 @@ function UserProfile({ onClose }) {
     }
     try {
       const response = await axios.post(
-        "http://localhost:3001/api/v1/user/updateAvatar",
+        `https://my-chatapp-ygrg.onrender.com/api/v1/user/updateAvatar`,
         fd,
         {
           headers: {

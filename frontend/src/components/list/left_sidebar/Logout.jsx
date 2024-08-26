@@ -11,7 +11,7 @@ function Logout() {
     //   console.log('Logout');
       const user = JSON.parse(localStorage.getItem('userData'));
     //   const user= user;
-      axios.post('http://localhost:3001/api/v1/user/logout',{user},{
+      axios.post(`https://my-chatapp-ygrg.onrender.com/api/v1/user/logout`,{user},{
         headers: {
           Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
         },
