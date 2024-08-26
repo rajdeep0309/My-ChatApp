@@ -7,7 +7,8 @@
   "scripts": {
     "start": "node -r dotenv/config --experimental-json-modules src/app.js",
     "dev": "nodemon -r dotenv/config --experimental-json-modules src/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build":"npm i"
   },
   "author": "My-ChatApp",
   "license": "ISC",

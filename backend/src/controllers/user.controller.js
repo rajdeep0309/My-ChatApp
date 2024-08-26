@@ -113,7 +113,7 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 });
 
-const loginUser = asyncHandler(async (req, res) => {
+const  loginUser = asyncHandler(async (req, res) => {
   //get the data from the request body
   // console.log("data received from the frontend");
 
